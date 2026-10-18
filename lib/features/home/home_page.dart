@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sete_alegrias_de_maria/features/backup/presentation/backup_page.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_tamanho_letra.dart';
 import 'package:sete_alegrias_de_maria/features/historico/presentation/cartao_historico.dart';
+import 'package:sete_alegrias_de_maria/features/lembretes/presentation/lembretes_page.dart';
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
 import 'package:sete_alegrias_de_maria/features/terco/presentation/terco_page.dart';
 
 /// Tela inicial.
-/// Próximo passo: atalho para os lembretes.
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
@@ -16,7 +17,25 @@ class HomePage extends ConsumerWidget {
     final terco = ref.watch(tercoControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(actions: const [BotaoTamanhoLetra()]),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            tooltip: 'Lembretes',
+            icon: const Icon(Icons.notifications_outlined),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const LembretesPage()),
+            ),
+          ),
+          IconButton(
+            tooltip: 'Backup',
+            icon: const Icon(Icons.save_alt),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const BackupPage()),
+            ),
+          ),
+          const BotaoTamanhoLetra(),
+        ],
+      ),
       body: SafeArea(
         child: Center(
           // Rolagem: com letra grande o conteúdo pode passar da tela.

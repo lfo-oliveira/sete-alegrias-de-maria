@@ -4,12 +4,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sete_alegrias_de_maria/app.dart';
 import 'package:sete_alegrias_de_maria/data/repositories/progresso_repository.dart';
+import 'package:sete_alegrias_de_maria/features/lembretes/data/agendador_lembretes.dart';
+
+import 'helpers/agendador_falso.dart';
 
 Future<Widget> _montarApp(Map<String, Object> valoresSalvos) async {
   SharedPreferences.setMockInitialValues(valoresSalvos);
   final prefs = await SharedPreferences.getInstance();
   return ProviderScope(
-    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(prefs),
+      agendadorLembretesProvider.overrideWithValue(AgendadorFalso()),
+    ],
     child: const SeteAlegriasApp(),
   );
 }

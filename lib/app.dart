@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sete_alegrias_de_maria/core/theme/app_theme.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/application/tamanho_letra_controller.dart';
 import 'package:sete_alegrias_de_maria/features/home/home_page.dart';
+import 'package:sete_alegrias_de_maria/features/lembretes/presentation/lembretes_inicializador.dart';
 
 class SeteAlegriasApp extends ConsumerWidget {
   const SeteAlegriasApp({super.key});
@@ -30,7 +31,7 @@ class SeteAlegriasApp extends ConsumerWidget {
           child: child!,
         );
       },
-      home: const HomePage(),
+      home: const LembretesInicializador(child: HomePage()),
     );
   }
 }
