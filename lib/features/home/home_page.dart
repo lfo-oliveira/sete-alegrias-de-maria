@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_tamanho_letra.dart';
+import 'package:sete_alegrias_de_maria/features/historico/presentation/cartao_historico.dart';
+import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
+import 'package:sete_alegrias_de_maria/features/terco/presentation/terco_page.dart';
+
+/// Tela inicial.
+/// Próximo passo: atalho para os lembretes.
+class HomePage extends ConsumerWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tema = Theme.of(context).textTheme;
+    final terco = ref.watch(tercoControllerProvider);
+
+    return Scaffold(
+      appBar: AppBar(actions: const [BotaoTamanhoLetra()]),
+      body: SafeArea(
+        child: Center(
+          // Rolagem: com letra grande o conteúdo pode passar da tela.
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Sete Alegrias de Maria',
+                  style: tema.headlineLarge,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Terço da Coroa Franciscana',
+                  style: tema.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 40),
+                if (terco.emAndamento) ...[
+                  Text(
+                    _descreverOndeParou(terco),
+                    style: tema.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  FilledButton(
+                    onPressed: () => _abrirTerco(context),
+                    child: const _TextoBotao('Continuar de onde parei'),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton(
+                    onPressed: () {
+                      ref.read(tercoControllerProvider.notifier).reiniciar();
+                      _abrirTerco(context);
+                    },
+                    child: const _TextoBotao('Começar de novo'),
+                  ),
+                ] else
+                  FilledButton(
+                    onPressed: () => _abrirTerco(context),
+                    child: const _TextoBotao('Rezar o terço'),
+                  ),
+                const SizedBox(height: 32),
+                const CartaoHistorico(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _abrirTerco(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const TercoPage()),
+    );
+  }
+
+  String _descreverOndeParou(TercoState terco) {
+    final alegria = terco.passoAtual.alegriaId;
+    if (alegria == null) return 'Você parou nas orações.';
+    return 'Você parou na $alegriaª alegria.';
+  }
+}
+
+class _TextoBotao extends StatelessWidget {
+  const _TextoBotao(this.texto);
+
+  final String texto;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        child: Text(texto),
+      );
+}
