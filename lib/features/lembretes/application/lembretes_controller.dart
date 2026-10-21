@@ -5,21 +5,34 @@ import 'package:sete_alegrias_de_maria/features/lembretes/data/lembretes_reposit
 import 'package:sete_alegrias_de_maria/features/lembretes/domain/agenda.dart';
 import 'package:sete_alegrias_de_maria/features/lembretes/domain/lembrete.dart';
 import 'package:sete_alegrias_de_maria/features/lembretes/domain/lembretes_padrao.dart';
+import 'package:sete_alegrias_de_maria/features/lembretes/domain/lembretes_terco.dart';
 
 class LembretesState {
-  const LembretesState({required this.lembretes, this.permissaoNegada = false});
+  const LembretesState({
+    required this.lembretes,
+    this.personalizados = const [],
+    this.permissaoNegada = false,
+  });
 
+  /// Lembretes fixos do app (Hora da Ave-Maria).
   final List<Lembrete> lembretes;
+
+  /// Lembretes do terço criados pelo fiel.
+  final List<Lembrete> personalizados;
 
   /// O fiel não permitiu notificações no celular.
   final bool permissaoNegada;
 
+  List<Lembrete> get todos => [...lembretes, ...personalizados];
+
   LembretesState copyWith({
     List<Lembrete>? lembretes,
+    List<Lembrete>? personalizados,
     bool? permissaoNegada,
   }) =>
       LembretesState(
         lembretes: lembretes ?? this.lembretes,
+        personalizados: personalizados ?? this.personalizados,
         permissaoNegada: permissaoNegada ?? this.permissaoNegada,
       );
 }
@@ -35,25 +48,89 @@ class LembretesController extends Notifier<LembretesState> {
         for (final l in LembretesPadrao.todos)
           l.copyWith(ativo: _repo.lerAtivo(l.id)),
       ],
+      personalizados: _repo.lerPersonalizados(),
     );
   }
 
-  /// Liga ou desliga um lembrete e atualiza o que está agendado.
+  /// Liga ou desliga um lembrete (fixo ou criado pelo fiel).
   Future<void> alternar(int id, bool ativo) async {
-    await _repo.salvarAtivo(id, ativo);
-    state = state.copyWith(
-      lembretes: [
-        for (final l in state.lembretes)
+    final personalizado = state.personalizados.any((l) => l.id == id);
+    if (personalizado) {
+      await _guardarPersonalizados([
+        for (final l in state.personalizados)
           l.id == id ? l.copyWith(ativo: ativo) : l,
-      ],
-    );
+      ]);
+    } else {
+      await _repo.salvarAtivo(id, ativo);
+      state = state.copyWith(
+        lembretes: [
+          for (final l in state.lembretes)
+            l.id == id ? l.copyWith(ativo: ativo) : l,
+        ],
+      );
+    }
     await sincronizar();
+  }
+
+  /// Cria um lembrete do terço no horário e nos dias escolhidos.
+  Future<void> adicionar({
+    required int hora,
+    required int minuto,
+    required Set<int> dias,
+  }) async {
+    final maior = state.personalizados.fold<int>(
+      primeiroIdPersonalizado - 1,
+      (m, l) => l.id > m ? l.id : m,
+    );
+    final novo = LembretesTerco.criar(
+      id: maior + 1,
+      hora: hora,
+      minuto: minuto,
+      dias: dias,
+    );
+    await _guardarPersonalizados([...state.personalizados, novo]);
+    await sincronizar();
+  }
+
+  /// Muda horário e dias de um lembrete criado pelo fiel.
+  /// Editar também liga o lembrete de novo.
+  Future<void> editar(
+    int id, {
+    required int hora,
+    required int minuto,
+    required Set<int> dias,
+  }) async {
+    await _guardarPersonalizados([
+      for (final l in state.personalizados)
+        l.id == id
+            ? LembretesTerco.criar(
+                id: id,
+                hora: hora,
+                minuto: minuto,
+                dias: dias,
+              )
+            : l,
+    ]);
+    await sincronizar();
+  }
+
+  Future<void> remover(int id) async {
+    await _guardarPersonalizados([
+      for (final l in state.personalizados)
+        if (l.id != id) l,
+    ]);
+    await sincronizar();
+  }
+
+  Future<void> _guardarPersonalizados(List<Lembrete> lista) async {
+    await _repo.salvarPersonalizados(lista);
+    state = state.copyWith(personalizados: lista);
   }
 
   /// Deixa o agendamento do celular igual ao que está ligado na tela.
   /// Chamado ao abrir o app e sempre que algo muda.
   Future<void> sincronizar() async {
-    final temAtivo = state.lembretes.any((l) => l.ativo);
+    final temAtivo = state.todos.any((l) => l.ativo);
 
     if (!temAtivo) {
       await _agendador.substituirAgenda(const []);
@@ -65,7 +142,7 @@ class LembretesController extends Notifier<LembretesState> {
 
     final agora = ref.read(relogioProvider)();
     await _agendador.substituirAgenda(
-      permitido ? calcularAgenda(state.lembretes, agora) : const [],
+      permitido ? calcularAgenda(state.todos, agora) : const [],
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sete_alegrias_de_maria/data/repositories/progresso_repository.dart';
+import 'package:sete_alegrias_de_maria/features/lembretes/data/lembretes_repository.dart';
 
 /// O arquivo escolhido não é um backup válido (ou é de uma versão mais nova).
 class BackupInvalido implements Exception {
@@ -40,6 +41,8 @@ class BackupService {
         v is List && v.every((d) => d is String && _data.hasMatch(d)),
     RegExp(r'^config\.tamanho_letra$'): (v) => v is String,
     RegExp(r'^lembretes\.ativo\.\d+$'): (v) => v is bool,
+    RegExp(r'^lembretes\.terco$'): (v) =>
+        v is String && LembretesRepository.textoValido(v),
   };
 
   static bool Function(Object)? _verificador(String chave) {

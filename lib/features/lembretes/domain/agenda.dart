@@ -33,7 +33,8 @@ int idDaNotificacao(Lembrete lembrete, int posicaoDoDia) =>
     lembrete.id * 100 + posicaoDoDia;
 
 /// Calcula as notificações dos próximos [diasAgendados] dias.
-/// Só considera lembretes ativos e ignora horários que já passaram hoje.
+/// Só considera lembretes ativos, nos dias da semana escolhidos, e ignora
+/// horários que já passaram hoje.
 /// O resultado vem em ordem cronológica.
 ///
 /// Função pura: não toca em celular, relógio ou tela. Fácil de testar.
@@ -52,6 +53,7 @@ List<NotificacaoAgendada> calcularAgenda(
         lembrete.minuto,
       );
       if (!quando.isAfter(agora)) continue;
+      if (!lembrete.dias.contains(quando.weekday)) continue;
       resultado.add(
         NotificacaoAgendada(
           id: idDaNotificacao(lembrete, i),

@@ -1,3 +1,10 @@
+/// Todos os dias da semana, no padrão do Dart (1 = segunda ... 7 = domingo).
+const todosOsDias = <int>{1, 2, 3, 4, 5, 6, 7};
+
+/// Ids a partir deste número são lembretes criados pelo fiel.
+/// Os ids menores são os lembretes fixos do app (Hora da Ave-Maria).
+const primeiroIdPersonalizado = 10;
+
 /// Um lembrete diário de oração.
 class Lembrete {
   const Lembrete({
@@ -7,6 +14,7 @@ class Lembrete {
     required this.titulo,
     required this.descricao,
     required this.mensagens,
+    this.dias = todosOsDias,
     this.ativo = true,
   });
 
@@ -24,18 +32,26 @@ class Lembrete {
   /// Mensagens que se alternam, uma por dia.
   final List<String> mensagens;
 
+  /// Dias da semana em que avisa (1 = segunda ... 7 = domingo).
+  final Set<int> dias;
+
   final bool ativo;
+
+  /// Criado pelo fiel (pode editar o horário e apagar).
+  bool get ehPersonalizado => id >= primeiroIdPersonalizado;
 
   String get horario =>
       '${hora.toString().padLeft(2, '0')}:${minuto.toString().padLeft(2, '0')}';
 
-  Lembrete copyWith({bool? ativo}) => Lembrete(
+  Lembrete copyWith({bool? ativo, int? hora, int? minuto, Set<int>? dias}) =>
+      Lembrete(
         id: id,
-        hora: hora,
-        minuto: minuto,
+        hora: hora ?? this.hora,
+        minuto: minuto ?? this.minuto,
         titulo: titulo,
         descricao: descricao,
         mensagens: mensagens,
+        dias: dias ?? this.dias,
         ativo: ativo ?? this.ativo,
       );
 }

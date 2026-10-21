@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
@@ -31,20 +32,18 @@ class ArquivoDeBackupReal implements ArquivoDeBackup {
     final pasta = await getTemporaryDirectory();
     final arquivo = File('${pasta.path}${Platform.pathSeparator}$nome');
     await arquivo.writeAsString(conteudo);
-    await Share.shareXFiles(
-      [XFile(arquivo.path, mimeType: 'application/json')],
-      subject: 'Backup - Sete Alegrias de Maria',
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(arquivo.path, mimeType: 'application/json')],
+        subject: 'Backup - Sete Alegrias de Maria',
+      ),
     );
   }
 
   @override
   Future<String?> escolherELer() async {
-    final resultado = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-      withData: true,
-    );
-    final bytes = resultado?.files.single.bytes;
-    if (bytes == null) return null;
-    return utf8.decode(bytes);
+    final arquivo = await FilePicker.pickFile();
+    if (arquivo == null) return null;
+    return utf8.decode(await arquivo.readAsBytes());
   }
 }
