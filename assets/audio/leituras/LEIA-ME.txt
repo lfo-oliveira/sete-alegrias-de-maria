@@ -1,0 +1,9 @@
+Coloque aqui os MP3 das leituras das alegrias (trecho biblico + reflexao
+juntos, num arquivo so por alegria):
+
+  alegria_1.mp3   alegria_2.mp3   alegria_3.mp3   alegria_4.mp3
+  alegria_5.mp3   alegria_6.mp3   alegria_7.mp3
+
+O app descobre sozinho quais arquivos existem. Alegria sem arquivo
+simplesmente aparece sem o botao "Ouvir".
+Depois de adicionar arquivos, rode "flutter run" de novo (nao basta hot reload).

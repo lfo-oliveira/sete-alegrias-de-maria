@@ -40,6 +40,7 @@ class BackupService {
     RegExp(r'^historico\.dias_rezados$'): (v) =>
         v is List && v.every((d) => d is String && _data.hasMatch(d)),
     RegExp(r'^config\.tamanho_letra$'): (v) => v is String,
+    RegExp(r'^config\.audio_avanco_automatico$'): (v) => v is bool,
     RegExp(r'^lembretes\.ativo\.\d+$'): (v) => v is bool,
     RegExp(r'^lembretes\.terco$'): (v) =>
         v is String && LembretesRepository.textoValido(v),

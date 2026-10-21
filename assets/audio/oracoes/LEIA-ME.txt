@@ -1,0 +1,9 @@
+Coloque aqui os MP3 das oracoes, com o nome igual ao id da oracao:
+
+  sinal_da_cruz.mp3   credo.mp3        oferecimento.mp3
+  pai_nosso.mp3       ave_maria.mp3    gloria.mp3
+  salve_rainha.mp3    oracao_final.mp3
+
+O app descobre sozinho quais arquivos existem. Oracao sem arquivo
+simplesmente aparece sem o botao "Ouvir".
+Depois de adicionar arquivos, rode "flutter run" de novo (nao basta hot reload).

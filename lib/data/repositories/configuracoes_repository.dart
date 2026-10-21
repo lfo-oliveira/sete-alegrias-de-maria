@@ -11,6 +11,7 @@ class ConfiguracoesRepository {
   final SharedPreferences _prefs;
 
   static const _chaveTamanhoLetra = 'config.tamanho_letra';
+  static const _chaveAvancoAutomatico = 'config.audio_avanco_automatico';
 
   /// Guardamos o NOME do tamanho (ex.: "grande"), não o número,
   /// para o valor continuar válido se mudarmos os fatores depois.
@@ -24,6 +25,12 @@ class ConfiguracoesRepository {
 
   Future<void> salvarTamanhoLetra(TamanhoLetra tamanho) =>
       _prefs.setString(_chaveTamanhoLetra, tamanho.name);
+
+  /// Avanço automático do áudio: vem ligado por padrão.
+  bool lerAvancoAutomatico() => _prefs.getBool(_chaveAvancoAutomatico) ?? true;
+
+  Future<void> salvarAvancoAutomatico(bool valor) =>
+      _prefs.setBool(_chaveAvancoAutomatico, valor);
 }
 
 final configuracoesRepositoryProvider = Provider<ConfiguracoesRepository>(

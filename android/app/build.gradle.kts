@@ -1,3 +1,14 @@
+import java.util.Properties
+
+// Dados da chave de assinatura (arquivo android/key.properties, que não vai
+// para o git). Sem esse arquivo, a versão final usa a chave de teste, só para
+// `flutter run --release` funcionar. A Play Store NÃO aceita essa chave de teste.
+val chaveProps = Properties()
+val chaveArquivo = rootProject.file("key.properties")
+if (chaveArquivo.exists()) {
+    chaveArquivo.inputStream().use { chaveProps.load(it) }
+}
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
@@ -31,11 +42,24 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("release") {
+            if (chaveArquivo.exists()) {
+                keyAlias = chaveProps.getProperty("keyAlias")
+                keyPassword = chaveProps.getProperty("keyPassword")
+                storeFile = file(chaveProps.getProperty("storeFile"))
+                storePassword = chaveProps.getProperty("storePassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (chaveArquivo.exists()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }

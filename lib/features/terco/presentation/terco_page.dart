@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sete_alegrias_de_maria/data/models/passo.dart';
 import 'package:sete_alegrias_de_maria/data/repositories/conteudo_repository.dart';
+import 'package:sete_alegrias_de_maria/features/audio/presentation/controles_audio.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_tamanho_letra.dart';
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
+import 'package:sete_alegrias_de_maria/features/terco/presentation/faixa_da_alegria.dart';
 
 /// Tela de oração: mostra o passo atual e os botões Voltar / Próxima.
 class TercoPage extends ConsumerWidget {
@@ -45,6 +47,7 @@ class _Corpo extends ConsumerWidget {
     return Column(
       children: [
         LinearProgressIndicator(value: estado.progresso),
+        FaixaDaAlegria(passo: estado.passoAtual, conteudo: conteudo),
         Expanded(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
@@ -54,34 +57,40 @@ class _Corpo extends ConsumerWidget {
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-            child: Row(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: estado.ehPrimeiro ? null : controle.voltar,
-                    child: const Text('Voltar'),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  flex: 2,
-                  child: FilledButton(
-                    onPressed: estado.ehUltimo
-                        ? () {
-                            final mensagens = ScaffoldMessenger.of(context);
-                            controle.concluir();
-                            Navigator.of(context).pop();
-                            mensagens.showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Terço concluído. Deus te abençoe! 🙏',
-                                ),
-                              ),
-                            );
-                          }
-                        : controle.avancar,
-                    child: Text(estado.ehUltimo ? 'Concluir' : 'Próxima'),
-                  ),
+                const ControlesAudio(),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: estado.ehPrimeiro ? null : controle.voltar,
+                        child: const Text('Voltar'),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      flex: 2,
+                      child: FilledButton(
+                        onPressed: estado.ehUltimo
+                            ? () {
+                                final mensagens = ScaffoldMessenger.of(context);
+                                controle.concluir();
+                                Navigator.of(context).pop();
+                                mensagens.showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Terço concluído. Deus te abençoe! 🙏',
+                                    ),
+                                  ),
+                                );
+                              }
+                            : controle.avancar,
+                        child: Text(estado.ehUltimo ? 'Concluir' : 'Próxima'),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
