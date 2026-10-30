@@ -28,20 +28,34 @@ class ControlesAudio extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          // Wrap: com letra grande a chave desce para a linha de baixo em vez
+          // de estourar a tela.
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 12,
             children: [
               FilledButton.tonalIcon(
                 onPressed: controle.alternarTocar,
                 icon: Icon(audio.tocando ? Icons.pause : Icons.play_arrow),
                 label: Text(audio.tocando ? 'Pausar' : 'Ouvir'),
               ),
-              const Spacer(),
-              Flexible(
-                child: Text('Avanço automático', style: tema.bodyMedium),
-              ),
-              Switch(
-                value: audio.avancoAutomatico,
-                onChanged: controle.definirAvancoAutomatico,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Limite de largura: em letra enorme o texto quebra em
+                  // duas linhas e a chave continua visível.
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.sizeOf(context).width - 120,
+                    ),
+                    child: Text('Avanço automático', style: tema.bodyMedium),
+                  ),
+                  Switch(
+                    value: audio.avancoAutomatico,
+                    onChanged: controle.definirAvancoAutomatico,
+                  ),
+                ],
               ),
             ],
           ),

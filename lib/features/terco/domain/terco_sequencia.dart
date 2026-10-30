@@ -8,7 +8,8 @@ import 'package:sete_alegrias_de_maria/features/terco/domain/terco_config.dart';
 ///  2. Para cada alegria (1 a 7):
 ///       meditação -> Pai-Nosso -> 10 Ave-Marias -> Glória
 ///  3. Ave-Marias extras (completam as 72)
-///  4. Orações finais ([TercoConfig.oracoesFinais])
+///  4. Pelas intenções do Papa ([TercoConfig.oracoesPeloPapa])
+///  5. Orações finais ([TercoConfig.oracoesFinais])
 ///
 /// Função pura: sem áudio, sem tela, sem estado. Fácil de testar.
 List<Passo> construirTerco() {
@@ -17,6 +18,8 @@ List<Passo> construirTerco() {
     for (var alegria = 1; alegria <= TercoConfig.totalAlegrias; alegria++)
       ..._dezena(alegria),
     ..._aveMariasExtras(),
+    // A Ave-Maria pelo Papa entra como oração simples: não conta nas 72.
+    ..._oracoesSimples(TercoConfig.oracoesPeloPapa),
     ..._oracoesSimples(TercoConfig.oracoesFinais),
   ];
 }

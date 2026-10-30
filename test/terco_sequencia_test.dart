@@ -48,7 +48,8 @@ void main() {
     expect(dezena1.last.total, 10);
   });
 
-  test('as 2 Ave-Marias extras vêm depois da 7ª alegria e antes da Salve Rainha',
+  test(
+      'as 2 Ave-Marias extras vêm depois da 7ª alegria e antes da Salve Rainha',
       () {
     final extras = passos
         .where((p) => p.tipo == TipoPasso.aveMaria && p.alegriaId == null)
@@ -61,7 +62,33 @@ void main() {
         passos.indexWhere((p) => p.oracaoId == OracaoIds.salveRainha);
     final indiceExtra = passos.indexOf(extras.first);
 
-    expect(indiceExtra, greaterThan(indiceUltimoGloria));
+    final indiceGloria7 = passos.lastIndexWhere(
+      (p) => p.oracaoId == OracaoIds.gloria && p.alegriaId == 7,
+    );
+    expect(indiceExtra, greaterThan(indiceGloria7));
     expect(indiceExtra, lessThan(indiceSalve));
+
+    // O último Glória é o das intenções do Papa, que vem depois das extras.
+    final indicePapa =
+        passos.indexWhere((p) => p.oracaoId == OracaoIds.intencoesPapa);
+    expect(indiceExtra, lessThan(indicePapa));
+    expect(indiceUltimoGloria, greaterThan(indicePapa));
+  });
+
+  test('depois das extras: Pai-Nosso, Ave-Maria e Glória pelo Papa', () {
+    final inicio =
+        passos.indexWhere((p) => p.oracaoId == OracaoIds.intencoesPapa);
+    final bloco = passos
+        .sublist(inicio, inicio + TercoConfig.oracoesPeloPapa.length)
+        .map((p) => p.oracaoId)
+        .toList();
+    expect(bloco, TercoConfig.oracoesPeloPapa);
+    expect(passos[inicio - 1].tipo, TipoPasso.aveMaria);
+    expect(passos.sublist(inicio).every((p) => p.alegriaId == null), isTrue);
+  });
+
+  test('o terço termina com o Agradecimento e a Salve Rainha', () {
+    final ultimos = passos.reversed.take(2).map((p) => p.oracaoId).toList();
+    expect(ultimos, [OracaoIds.salveRainha, OracaoIds.oracaoFinal]);
   });
 }

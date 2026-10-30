@@ -7,11 +7,18 @@ class AgendadorFalso implements AgendadorLembretes {
 
   final bool permitir;
   int pedidosDePermissao = 0;
+  int consultasDePermissao = 0;
   List<NotificacaoAgendada> agenda = [];
 
   @override
   Future<bool> pedirPermissao() async {
     pedidosDePermissao++;
+    return permitir;
+  }
+
+  @override
+  Future<bool> permissaoConcedida() async {
+    consultasDePermissao++;
     return permitir;
   }
 

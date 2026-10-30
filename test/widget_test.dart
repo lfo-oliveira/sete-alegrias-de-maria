@@ -21,7 +21,8 @@ Future<Widget> _montarApp(Map<String, Object> valoresSalvos) async {
 }
 
 void main() {
-  testWidgets('sem progresso salvo mostra o botão Rezar o terço', (tester) async {
+  testWidgets('sem progresso salvo mostra o botão Rezar o terço',
+      (tester) async {
     await tester.pumpWidget(await _montarApp({}));
 
     expect(find.text('Rezar o terço'), findsOneWidget);
@@ -35,5 +36,18 @@ void main() {
     expect(find.text('Continuar de onde parei'), findsOneWidget);
     expect(find.text('Começar de novo'), findsOneWidget);
     expect(find.text('Rezar o terço'), findsNothing);
+  });
+
+  testWidgets('Começar de novo pede confirmação; Cancelar mantém o lugar',
+      (tester) async {
+    await tester.pumpWidget(await _montarApp({'terco.indice_atual': 5}));
+
+    await tester.tap(find.text('Começar de novo'));
+    await tester.pumpAndSettle();
+    expect(find.text('Começar de novo?'), findsOneWidget);
+
+    await tester.tap(find.text('Cancelar'));
+    await tester.pumpAndSettle();
+    expect(find.text('Continuar de onde parei'), findsOneWidget);
   });
 }

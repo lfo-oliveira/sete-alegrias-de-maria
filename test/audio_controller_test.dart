@@ -8,6 +8,7 @@ import 'package:sete_alegrias_de_maria/features/audio/application/audio_controll
 import 'package:sete_alegrias_de_maria/features/audio/application/audios_disponiveis.dart';
 import 'package:sete_alegrias_de_maria/features/audio/data/player_audio.dart';
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
+import 'package:sete_alegrias_de_maria/features/terco/domain/terco_sequencia.dart';
 
 import 'helpers/player_falso.dart';
 
@@ -26,7 +27,7 @@ String _mp3(String id) => '$pastaDeAudios/$id.mp3';
 String _leitura(int alegria) => caminhoDaLeitura(alegria);
 
 /// Passos do terço (índice): 0 sinal, 1 credo, 2 oferecimento, 3 meditação,
-/// 4 pai-nosso, 5 a 14 Ave-Marias, 15 glória ... 97 oração final.
+/// 4 pai-nosso, 5 a 14 Ave-Marias, 15 glória ... o último é a Salve Rainha.
 class _Cenario {
   _Cenario(this.container, this.player);
 
@@ -236,14 +237,15 @@ void main() {
   });
 
   test('no último passo não avança nem tenta concluir sozinho', () async {
-    final c = await _montar(salvos: {'terco.indice_atual': 97});
+    final ultimo = construirTerco().length - 1;
+    final c = await _montar(salvos: {'terco.indice_atual': ultimo});
     expect(c.container.read(tercoControllerProvider).ehUltimo, isTrue);
     await c.audio.alternarTocar();
 
     c.player.terminar();
     await _esperar();
 
-    expect(c.indice, 97);
+    expect(c.indice, ultimo);
     expect(c.estadoAudio.tocando, isFalse);
   });
 

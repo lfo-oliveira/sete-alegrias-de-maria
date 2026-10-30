@@ -1,3 +1,5 @@
+import 'dart:ui' show Color;
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -8,6 +10,9 @@ import 'package:sete_alegrias_de_maria/features/lembretes/domain/agenda.dart';
 abstract class AgendadorLembretes {
   /// Pede permissão de notificação. Devolve true se o fiel permitiu.
   Future<bool> pedirPermissao();
+
+  /// Só confere se as notificações estão permitidas, sem perguntar nada.
+  Future<bool> permissaoConcedida();
 
   /// Troca tudo o que estava agendado por [notificacoes].
   Future<void> substituirAgenda(List<NotificacaoAgendada> notificacoes);
@@ -30,7 +35,9 @@ class AgendadorLocal implements AgendadorLembretes {
     if (_iniciado) return;
     await _plugin.initialize(
       const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        // Ícone branco e transparente (android/app/src/main/res/drawable):
+        // o ícone colorido do app vira um quadrado branco na barra de status.
+        android: AndroidInitializationSettings('ic_notificacao'),
       ),
     );
     _iniciado = true;
@@ -43,6 +50,15 @@ class AgendadorLocal implements AgendadorLembretes {
         AndroidFlutterLocalNotificationsPlugin>();
     if (android == null) return true;
     return await android.requestNotificationsPermission() ?? false;
+  }
+
+  @override
+  Future<bool> permissaoConcedida() async {
+    await _iniciar();
+    final android = _plugin.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
+    if (android == null) return true;
+    return await android.areNotificationsEnabled() ?? false;
   }
 
   @override
@@ -64,6 +80,7 @@ class AgendadorLocal implements AgendadorLembretes {
             channelDescription: 'Lembretes da Hora da Ave-Maria',
             importance: Importance.high,
             priority: Priority.high,
+            color: const Color(0xFF6B4A2F), // marrom do tema
             styleInformation: BigTextStyleInformation(n.corpo),
           ),
         ),

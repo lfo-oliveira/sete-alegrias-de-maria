@@ -16,7 +16,7 @@
     {
       "id": "oferecimento",
       "titulo": "Oferecimento",
-      "texto": "A DEFINIR: oferecimento da Coroa Franciscana (revisão do padre).",
+      "texto": "Quais as intenções deste terço e para quem você o oferece? Em silêncio, apresente a Nossa Senhora as suas intenções.",
       "audio": null
     },
     {
@@ -38,6 +38,12 @@
       "audio": null
     },
     {
+      "id": "intencoes_papa",
+      "titulo": "Pelas intenções do Papa",
+      "texto": "Rezemos agora um Pai-Nosso, uma Ave-Maria e um Glória ao Pai pelas intenções do Santo Padre, o Papa.",
+      "audio": null
+    },
+    {
       "id": "salve_rainha",
       "titulo": "Salve Rainha",
       "texto": "Salve, Rainha, Mãe de misericórdia, vida, doçura e esperança nossa, salve! A vós bradamos, os degredados filhos de Eva; a vós suspiramos, gemendo e chorando neste vale de lágrimas. Eia, pois, advogada nossa, esses vossos olhos misericordiosos a nós volvei; e depois deste desterro mostrai-nos Jesus, bendito fruto do vosso ventre, ó clemente, ó piedosa, ó doce sempre Virgem Maria. Rogai por nós, Santa Mãe de Deus, para que sejamos dignos das promessas de Cristo. Amém.",
@@ -45,8 +51,8 @@
     },
     {
       "id": "oracao_final",
-      "titulo": "Oração Final",
-      "texto": "A DEFINIR: oração final (revisão do padre).",
+      "titulo": "Agradecimento",
+      "texto": "Infinitas graças vos damos, Soberana Rainha, pelos benefícios que todos os dias recebemos de vossas mãos liberais. Dignai-vos, agora e para sempre, tomar-nos debaixo do vosso poderoso amparo e, para mais vos obrigar, vos saudamos com uma Salve Rainha.",
       "audio": null
     }
   ]

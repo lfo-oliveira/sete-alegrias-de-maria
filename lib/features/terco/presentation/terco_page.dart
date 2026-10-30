@@ -17,7 +17,7 @@ class TercoPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sete Alegrias de Maria'),
+        title: const Text('Sete Alegrias de Nossa Senhora'),
         actions: const [BotaoTamanhoLetra()],
       ),
       body: conteudo.when(
@@ -51,7 +51,8 @@ class _Corpo extends ConsumerWidget {
         Expanded(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
-            child: _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
+            child:
+                _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
           ),
         ),
         SafeArea(
@@ -115,7 +116,9 @@ class _ConteudoDoPasso extends StatelessWidget {
     switch (passo.tipo) {
       case TipoPasso.meditacao:
         final alegria = conteudo.alegrias[passo.alegriaId];
-        if (alegria == null) return _Aviso('Alegria ${passo.alegriaId} não encontrada');
+        if (alegria == null) {
+          return _Aviso('Alegria ${passo.alegriaId} não encontrada');
+        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -125,8 +128,11 @@ class _ConteudoDoPasso extends StatelessWidget {
             const SizedBox(height: 4),
             Text(alegria.referencia, style: tema.titleSmall),
             const SizedBox(height: 20),
-            Text(alegria.trechoBiblico, style: tema.titleLarge),
-            const SizedBox(height: 20),
+            // Trecho vazio no JSON: fica só a referência acima.
+            if (alegria.trechoBiblico.isNotEmpty) ...[
+              Text(alegria.trechoBiblico, style: tema.titleLarge),
+              const SizedBox(height: 20),
+            ],
             Text(alegria.reflexao, style: tema.bodyLarge),
           ],
         );
@@ -134,7 +140,9 @@ class _ConteudoDoPasso extends StatelessWidget {
       case TipoPasso.oracao:
       case TipoPasso.aveMaria:
         final oracao = conteudo.oracoes[passo.oracaoId];
-        if (oracao == null) return _Aviso('Oração "${passo.oracaoId}" não encontrada');
+        if (oracao == null) {
+          return _Aviso('Oração "${passo.oracaoId}" não encontrada');
+        }
         final ehAveMaria = passo.tipo == TipoPasso.aveMaria;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

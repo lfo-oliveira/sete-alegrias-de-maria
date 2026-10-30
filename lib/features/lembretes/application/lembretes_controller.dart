@@ -69,7 +69,8 @@ class LembretesController extends Notifier<LembretesState> {
         ],
       );
     }
-    await sincronizar();
+    // Ligar é um gesto do fiel: aí vale perguntar de novo pela permissão.
+    await sincronizar(pedirPermissao: ativo);
   }
 
   /// Cria um lembrete do terço no horário e nos dias escolhidos.
@@ -89,7 +90,7 @@ class LembretesController extends Notifier<LembretesState> {
       dias: dias,
     );
     await _guardarPersonalizados([...state.personalizados, novo]);
-    await sincronizar();
+    await sincronizar(pedirPermissao: true);
   }
 
   /// Muda horário e dias de um lembrete criado pelo fiel.
@@ -111,7 +112,7 @@ class LembretesController extends Notifier<LembretesState> {
               )
             : l,
     ]);
-    await sincronizar();
+    await sincronizar(pedirPermissao: true);
   }
 
   Future<void> remover(int id) async {
@@ -129,7 +130,11 @@ class LembretesController extends Notifier<LembretesState> {
 
   /// Deixa o agendamento do celular igual ao que está ligado na tela.
   /// Chamado ao abrir o app e sempre que algo muda.
-  Future<void> sincronizar() async {
+  ///
+  /// A permissão só é PEDIDA na primeira vez ou quando [pedirPermissao] é
+  /// true (o fiel ligou ou criou um lembrete). Nas outras vezes (ex.: ao
+  /// voltar para o app) só é conferida, para não insistir com quem negou.
+  Future<void> sincronizar({bool pedirPermissao = false}) async {
     final temAtivo = state.todos.any((l) => l.ativo);
 
     if (!temAtivo) {
@@ -137,7 +142,15 @@ class LembretesController extends Notifier<LembretesState> {
       return;
     }
 
-    final permitido = await _agendador.pedirPermissao();
+    final bool permitido;
+    if (pedirPermissao || !_repo.permissaoJaPedida()) {
+      // Marca antes: o próprio diálogo de permissão faz o app "voltar" e
+      // sincronizar de novo, e isso não pode virar um segundo pedido.
+      await _repo.marcarPermissaoPedida();
+      permitido = await _agendador.pedirPermissao();
+    } else {
+      permitido = await _agendador.permissaoConcedida();
+    }
     state = state.copyWith(permissaoNegada: !permitido);
 
     final agora = ref.read(relogioProvider)();
@@ -147,7 +160,6 @@ class LembretesController extends Notifier<LembretesState> {
   }
 }
 
-final lembretesProvider =
-    NotifierProvider<LembretesController, LembretesState>(
+final lembretesProvider = NotifierProvider<LembretesController, LembretesState>(
   LembretesController.new,
 );

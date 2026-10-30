@@ -45,7 +45,7 @@ class HomePage extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Sete Alegrias de Maria',
+                  'Sete Alegrias de Nossa Senhora',
                   style: tema.headlineLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -69,10 +69,7 @@ class HomePage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   OutlinedButton(
-                    onPressed: () {
-                      ref.read(tercoControllerProvider.notifier).reiniciar();
-                      _abrirTerco(context);
-                    },
+                    onPressed: () => _comecarDeNovo(context, ref),
                     child: const _TextoBotao('Começar de novo'),
                   ),
                 ] else
@@ -94,6 +91,33 @@ class HomePage extends ConsumerWidget {
     Navigator.of(context).push(
       MaterialPageRoute<void>(builder: (_) => const TercoPage()),
     );
+  }
+
+  /// Pergunta antes de apagar o "onde parei": um toque sem querer não
+  /// pode fazer o fiel perder o lugar no terço.
+  Future<void> _comecarDeNovo(BuildContext context, WidgetRef ref) async {
+    final confirmou = await showDialog<bool>(
+      context: context,
+      builder: (contexto) => AlertDialog(
+        title: const Text('Começar de novo?'),
+        content: const Text(
+          'O terço volta para o início e o lugar onde você parou é esquecido.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(contexto).pop(false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(contexto).pop(true),
+            child: const Text('Começar de novo'),
+          ),
+        ],
+      ),
+    );
+    if (confirmou != true || !context.mounted) return;
+    ref.read(tercoControllerProvider.notifier).reiniciar();
+    _abrirTerco(context);
   }
 
   String _descreverOndeParou(TercoState terco) {

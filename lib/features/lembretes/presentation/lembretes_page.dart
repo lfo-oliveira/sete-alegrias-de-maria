@@ -25,11 +25,25 @@ class LembretesPage extends ConsumerWidget {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Text(
-                    'As notificações estão desligadas no seu celular. Para '
-                    'receber os lembretes, ative as notificações do app '
-                    'nas configurações do aparelho.',
-                    style: tema.bodyMedium,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'As notificações estão desligadas no seu celular. Para '
+                        'receber os lembretes, permita as notificações. Se o '
+                        'pedido não aparecer, ative-as nas configurações do '
+                        'aparelho.',
+                        style: tema.bodyMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      TextButton(
+                        onPressed: () => executarLembrete(
+                          context,
+                          () => controle.sincronizar(pedirPermissao: true),
+                        ),
+                        child: const Text('Permitir notificações'),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -81,7 +95,10 @@ class LembretesPage extends ConsumerWidget {
                 title: Text('${lembrete.horario} · ${lembrete.titulo}'),
                 subtitle: Text(lembrete.descricao),
                 value: lembrete.ativo,
-                onChanged: (valor) => controle.alternar(lembrete.id, valor),
+                onChanged: (valor) => executarLembrete(
+                  context,
+                  () => controle.alternar(lembrete.id, valor),
+                ),
               ),
           ],
         ),
@@ -94,11 +111,32 @@ class LembretesPage extends ConsumerWidget {
     LembretesController controle,
   ) async {
     final resultado = await mostrarEditorLembrete(context);
-    if (resultado == null || resultado.excluir) return;
-    await controle.adicionar(
-      hora: resultado.hora,
-      minuto: resultado.minuto,
-      dias: resultado.dias,
+    if (resultado == null || resultado.excluir || !context.mounted) return;
+    await executarLembrete(
+      context,
+      () => controle.adicionar(
+        hora: resultado.hora,
+        minuto: resultado.minuto,
+        dias: resultado.dias,
+      ),
+    );
+  }
+}
+
+/// Executa uma ação dos lembretes. Se o celular não deixar agendar (erro do
+/// sistema), avisa o fiel em vez de deixar o erro solto.
+Future<void> executarLembrete(
+  BuildContext context,
+  Future<void> Function() acao,
+) async {
+  try {
+    await acao();
+  } catch (_) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Não foi possível agendar o lembrete. Tente de novo.'),
+      ),
     );
   }
 }
@@ -120,7 +158,10 @@ class _LinhaPersonalizada extends ConsumerWidget {
         subtitle: Text(lembrete.descricao),
         trailing: Switch(
           value: lembrete.ativo,
-          onChanged: (valor) => controle.alternar(lembrete.id, valor),
+          onChanged: (valor) => executarLembrete(
+            context,
+            () => controle.alternar(lembrete.id, valor),
+          ),
         ),
       ),
     );
@@ -131,16 +172,17 @@ class _LinhaPersonalizada extends ConsumerWidget {
     LembretesController controle,
   ) async {
     final resultado = await mostrarEditorLembrete(context, atual: lembrete);
-    if (resultado == null) return;
-    if (resultado.excluir) {
-      await controle.remover(lembrete.id);
-    } else {
-      await controle.editar(
-        lembrete.id,
-        hora: resultado.hora,
-        minuto: resultado.minuto,
-        dias: resultado.dias,
-      );
-    }
+    if (resultado == null || !context.mounted) return;
+    await executarLembrete(
+      context,
+      () => resultado.excluir
+          ? controle.remover(lembrete.id)
+          : controle.editar(
+              lembrete.id,
+              hora: resultado.hora,
+              minuto: resultado.minuto,
+              dias: resultado.dias,
+            ),
+    );
   }
 }

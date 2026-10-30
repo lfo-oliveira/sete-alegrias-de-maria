@@ -34,7 +34,7 @@ class ArquivoDeBackupReal implements ArquivoDeBackup {
     await SharePlus.instance.share(
       ShareParams(
         files: [XFile(arquivo.path, mimeType: 'application/json')],
-        subject: 'Backup - Sete Alegrias de Maria',
+        subject: 'Backup - Sete Alegrias de Nossa Senhora',
       ),
     );
   }
