@@ -69,7 +69,7 @@ class HomePage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   OutlinedButton(
-                    onPressed: () => _comecarDeNovo(context, ref),
+                    onPressed: () => _confirmarERecomencar(context, ref),
                     child: const _TextoBotao('Começar de novo'),
                   ),
                 ] else
@@ -92,33 +92,34 @@ class HomePage extends ConsumerWidget {
       MaterialPageRoute<void>(builder: (_) => const TercoPage()),
     );
   }
-
-  /// Pergunta antes de apagar o "onde parei": um toque sem querer não
-  /// pode fazer o fiel perder o lugar no terço.
-  Future<void> _comecarDeNovo(BuildContext context, WidgetRef ref) async {
-    final confirmou = await showDialog<bool>(
+Future<void> _confirmarERecomencar(BuildContext context, WidgetRef ref) async {
+    final confirmar = await showDialog<bool>(
       context: context,
-      builder: (contexto) => AlertDialog(
-        title: const Text('Começar de novo?'),
+      builder: (ctx) => AlertDialog(
+        title: const Text('Recomeçar o terço?'),
         content: const Text(
-          'O terço volta para o início e o lugar onde você parou é esquecido.',
+          'O progresso salvo até aqui será apagado e você voltará ao início.',
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(contexto).pop(false),
+            onPressed: () => Navigator.of(ctx).pop(false),
             child: const Text('Cancelar'),
           ),
           FilledButton(
-            onPressed: () => Navigator.of(contexto).pop(true),
-            child: const Text('Começar de novo'),
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Recomeçar'),
           ),
         ],
       ),
     );
-    if (confirmou != true || !context.mounted) return;
-    ref.read(tercoControllerProvider.notifier).reiniciar();
-    _abrirTerco(context);
+
+    if (confirmar == true && context.mounted) {
+      ref.read(tercoControllerProvider.notifier).reiniciar();
+      _abrirTerco(context);
+    }
   }
+  /// Pergunta antes de apagar o "onde parei": um toque sem querer não
+  /// pode fazer o fiel perder o lugar no terço.
 
   String _descreverOndeParou(TercoState terco) {
     final alegria = terco.passoAtual.alegriaId;
