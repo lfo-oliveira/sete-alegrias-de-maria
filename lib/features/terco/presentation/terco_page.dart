@@ -50,9 +50,9 @@ class _Corpo extends ConsumerWidget {
         FaixaDaAlegria(passo: estado.passoAtual, conteudo: conteudo),
         Expanded(
           child: SingleChildScrollView(
+            key: ValueKey(estado.indice), // <-- Adicione esta linha
             padding: const EdgeInsets.all(24),
-            child:
-                _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
+            child: _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
           ),
         ),
         SafeArea(
