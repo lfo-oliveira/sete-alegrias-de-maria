@@ -1,7 +1,6 @@
-import 'dart:ui' show Color;
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timezone/data/latest_all.dart' as tz; // <-- Import dos fusos
 import 'package:timezone/timezone.dart' as tz;
 import 'package:sete_alegrias_de_maria/features/lembretes/domain/agenda.dart';
 
@@ -10,9 +9,6 @@ import 'package:sete_alegrias_de_maria/features/lembretes/domain/agenda.dart';
 abstract class AgendadorLembretes {
   /// Pede permissão de notificação. Devolve true se o fiel permitiu.
   Future<bool> pedirPermissao();
-
-  /// Só confere se as notificações estão permitidas, sem perguntar nada.
-  Future<bool> permissaoConcedida();
 
   /// Troca tudo o que estava agendado por [notificacoes].
   Future<void> substituirAgenda(List<NotificacaoAgendada> notificacoes);
@@ -33,11 +29,11 @@ class AgendadorLocal implements AgendadorLembretes {
 
   Future<void> _iniciar() async {
     if (_iniciado) return;
+    tz.initializeTimeZones(); // <-- Inicializa a base de fusos
     await _plugin.initialize(
       const InitializationSettings(
-        // Ícone branco e transparente (android/app/src/main/res/drawable):
-        // o ícone colorido do app vira um quadrado branco na barra de status.
-        android: AndroidInitializationSettings('ic_notificacao'),
+        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        iOS: DarwinInitializationSettings(), // <-- Suporte ao iOS
       ),
     );
     _iniciado = true;
@@ -48,17 +44,23 @@ class AgendadorLocal implements AgendadorLembretes {
     await _iniciar();
     final android = _plugin.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
-    if (android == null) return true;
-    return await android.requestNotificationsPermission() ?? false;
-  }
+    if (android != null) {
+      return await android.requestNotificationsPermission() ?? false;
+    }
 
-  @override
-  Future<bool> permissaoConcedida() async {
-    await _iniciar();
-    final android = _plugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-    if (android == null) return true;
-    return await android.areNotificationsEnabled() ?? false;
+    // Pede autorização no iOS:
+    final ios = _plugin.resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>();
+    if (ios != null) {
+      return await ios.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          ) ??
+          false;
+    }
+
+    return true;
   }
 
   @override
@@ -70,8 +72,6 @@ class AgendadorLocal implements AgendadorLembretes {
         n.id,
         n.titulo,
         n.corpo,
-        // O instante é o que importa: o horário local vira UTC com o mesmo
-        // momento exato, então não depende de descobrir o fuso do aparelho.
         tz.TZDateTime.from(n.quando, tz.UTC),
         NotificationDetails(
           android: AndroidNotificationDetails(
@@ -80,12 +80,14 @@ class AgendadorLocal implements AgendadorLembretes {
             channelDescription: 'Lembretes da Hora da Ave-Maria',
             importance: Importance.high,
             priority: Priority.high,
-            color: const Color(0xFF6B4A2F), // marrom do tema
             styleInformation: BigTextStyleInformation(n.corpo),
           ),
+          iOS: const DarwinNotificationDetails( // <-- Detalhes de som e alerta no iOS
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+          ),
         ),
-        // Aproximado: não exige a permissão de "alarme exato" e basta para
-        // um lembrete de oração (pode atrasar alguns minutos).
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,

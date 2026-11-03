@@ -149,7 +149,7 @@ class LembretesController extends Notifier<LembretesState> {
       await _repo.marcarPermissaoPedida();
       permitido = await _agendador.pedirPermissao();
     } else {
-      permitido = await _agendador.permissaoConcedida();
+      permitido = await _agendador.pedirPermissao();
     }
     state = state.copyWith(permissaoNegada: !permitido);
 
