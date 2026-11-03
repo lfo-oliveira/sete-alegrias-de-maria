@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +12,11 @@ import 'package:share_plus/share_plus.dart';
 abstract class ArquivoDeBackup {
   /// Abre a folha de compartilhar do celular com o arquivo de backup
   /// (o fiel escolhe: Drive, WhatsApp, e-mail, salvar no aparelho...).
-  Future<void> compartilhar({required String nome, required String conteudo});
+  Future<void> compartilhar({
+    required String nome,
+    required String conteudo,
+    Rect? origem,
+  });
 
   /// Deixa o fiel escolher um arquivo e devolve o texto dele,
   /// ou null se ele cancelar.
@@ -27,6 +32,7 @@ class ArquivoDeBackupReal implements ArquivoDeBackup {
   Future<void> compartilhar({
     required String nome,
     required String conteudo,
+    Rect? origem,
   }) async {
     final pasta = await getTemporaryDirectory();
     final arquivo = File('${pasta.path}${Platform.pathSeparator}$nome');
@@ -34,7 +40,8 @@ class ArquivoDeBackupReal implements ArquivoDeBackup {
     await SharePlus.instance.share(
       ShareParams(
         files: [XFile(arquivo.path, mimeType: 'application/json')],
-        subject: 'Backup - Sete Alegrias de Nossa Senhora',
+        subject: 'Backup - Sete Alegrias de Maria',
+        sharePositionOrigin: origem,
       ),
     );
   }

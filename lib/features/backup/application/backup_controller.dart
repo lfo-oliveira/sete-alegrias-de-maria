@@ -1,3 +1,5 @@
+import 'dart:ui';
+// import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sete_alegrias_de_maria/core/utils/relogio.dart';
 import 'package:sete_alegrias_de_maria/features/backup/data/arquivo_de_backup.dart';
@@ -21,7 +23,7 @@ class BackupAcoes {
 
   final Ref _ref;
 
-  Future<ResultadoBackup> exportar() async {
+  Future<ResultadoBackup> exportar({Rect? origem}) async { // <-- Adicione {Rect? origem}
     try {
       final agora = _ref.read(relogioProvider)();
       final texto = _ref.read(backupServiceProvider).gerar(agora);
@@ -29,6 +31,7 @@ class BackupAcoes {
       await _ref.read(arquivoDeBackupProvider).compartilhar(
             nome: 'backup-sete-alegrias-$data.json',
             conteudo: texto,
+            origem: origem, // <-- Repasse aqui
           );
       return const ResultadoBackup('Backup gerado. Guarde o arquivo com carinho.');
     } catch (_) {

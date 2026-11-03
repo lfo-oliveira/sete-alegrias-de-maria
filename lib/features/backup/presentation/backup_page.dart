@@ -56,7 +56,9 @@ class BackupPage extends ConsumerWidget {
   }
 
   Future<void> _exportar(BuildContext context, WidgetRef ref) async {
-    final resultado = await ref.read(backupAcoesProvider).exportar();
+    final box = context.findRenderObject() as RenderBox?;
+    final origem = box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+    final resultado = await ref.read(backupAcoesProvider).exportar(origem: origem);
     if (context.mounted) _avisar(context, resultado);
   }
 

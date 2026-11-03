@@ -1,5 +1,5 @@
 import 'package:sete_alegrias_de_maria/features/backup/data/arquivo_de_backup.dart';
-
+import 'dart:ui';
 /// Arquivo de mentira para os testes de backup.
 class ArquivoFalso implements ArquivoDeBackup {
   ArquivoFalso({this.paraLer});
@@ -14,6 +14,7 @@ class ArquivoFalso implements ArquivoDeBackup {
   Future<void> compartilhar({
     required String nome,
     required String conteudo,
+    Rect? origem, // <-- Adicione aqui
   }) async {
     nomeCompartilhado = nome;
     conteudoCompartilhado = conteudo;
