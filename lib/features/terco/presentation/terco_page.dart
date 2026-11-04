@@ -107,13 +107,13 @@ class _Corpo extends ConsumerWidget {
               } else if (paraEsquerda) {
                 _voltarComFeedback(estado, controle);
               }
-              if (paraDireita) {
-                // Deslizar para a direita (→) avança para a próxima
-                if (!estado.ehUltimo) controle.avancar();
-              } else if (paraEsquerda) {
-                // Deslizar para a esquerda (←) volta para a anterior
-                if (!estado.ehPrimeiro) controle.voltar();
-              }
+              // if (paraDireita) {
+              //   // Deslizar para a direita (→) avança para a próxima
+              //   if (!estado.ehUltimo) controle.avancar();
+              // } else if (paraEsquerda) {
+              //   // Deslizar para a esquerda (←) volta para a anterior
+              //   if (!estado.ehPrimeiro) controle.voltar();
+              // }
               arrastoX = 0;
             },
             child: SingleChildScrollView(

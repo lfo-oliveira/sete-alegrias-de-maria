@@ -1,7 +1,7 @@
 name: sete_alegrias_de_maria
 description: Aplicativo para rezar o Terço das Sete Alegrias de Nossa Senhora (Coroa Franciscana).
 publish_to: 'none'
-version: 1.0.2+3
+version: 1.0.2+4
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
