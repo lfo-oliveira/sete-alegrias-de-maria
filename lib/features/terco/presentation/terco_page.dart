@@ -43,18 +43,42 @@ class _Corpo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final estado = ref.watch(tercoControllerProvider);
     final controle = ref.read(tercoControllerProvider.notifier);
+    double arrastoX = 0;
 
     return Column(
       children: [
         LinearProgressIndicator(value: estado.progresso),
         FaixaDaAlegria(passo: estado.passoAtual, conteudo: conteudo),
+        
+        // 1. Área central de leitura da oração com detector de gestos (Swipe):
         Expanded(
-          child: SingleChildScrollView(
-            key: ValueKey(estado.indice), // <-- Adicione esta linha
-            padding: const EdgeInsets.all(24),
-            child: _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onHorizontalDragStart: (_) => arrastoX = 0,
+            onHorizontalDragUpdate: (detalhes) => arrastoX += detalhes.delta.dx,
+            onHorizontalDragEnd: (detalhes) {
+              final velocidade = detalhes.primaryVelocity ?? 0;
+              final paraDireita = arrastoX > 40 || velocidade > 120;
+              final paraEsquerda = arrastoX < -40 || velocidade < -120;
+
+              if (paraDireita) {
+                // Deslizar para a direita (→) avança para a próxima
+                if (!estado.ehUltimo) controle.avancar();
+              } else if (paraEsquerda) {
+                // Deslizar para a esquerda (←) volta para a anterior
+                if (!estado.ehPrimeiro) controle.voltar();
+              }
+              arrastoX = 0;
+            },
+            child: SingleChildScrollView(
+              key: ValueKey(estado.indice),
+              padding: const EdgeInsets.all(24),
+              child: _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
+            ),
           ),
         ),
+
+        // 2. Barra inferior com áudio e botões Voltar / Próxima:
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
@@ -128,7 +152,6 @@ class _ConteudoDoPasso extends StatelessWidget {
             const SizedBox(height: 4),
             Text(alegria.referencia, style: tema.titleSmall),
             const SizedBox(height: 20),
-            // Trecho vazio no JSON: fica só a referência acima.
             if (alegria.trechoBiblico.isNotEmpty) ...[
               Text(alegria.trechoBiblico, style: tema.titleLarge),
               const SizedBox(height: 20),
