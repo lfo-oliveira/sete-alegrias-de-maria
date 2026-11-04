@@ -7,13 +7,32 @@ import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
 import 'package:sete_alegrias_de_maria/features/terco/presentation/faixa_da_alegria.dart';
 import 'package:flutter/services.dart';
+import 'package:wakelock_plus/wakelock_plus.dart'; 
 
 /// Tela de oração: mostra o passo atual e os botões Voltar / Próxima.
-class TercoPage extends ConsumerWidget {
+/// Tela de oração: mostra o passo atual e os botões Voltar / Próxima.
+class TercoPage extends ConsumerStatefulWidget {
   const TercoPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TercoPage> createState() => _TercoPageState();
+}
+
+class _TercoPageState extends ConsumerState<TercoPage> {
+  @override
+  void initState() {
+    super.initState();
+    WakelockPlus.enable(); // Mantém a tela acesa durante toda a oração
+  }
+
+  @override
+  void dispose() {
+    WakelockPlus.disable(); // Libera o desligamento normal de tela ao sair
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final conteudo = ref.watch(conteudoProvider);
 
     return Scaffold(
