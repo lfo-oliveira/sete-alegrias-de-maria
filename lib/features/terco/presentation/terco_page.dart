@@ -6,6 +6,7 @@ import 'package:sete_alegrias_de_maria/features/audio/presentation/controles_aud
 import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_tamanho_letra.dart';
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
 import 'package:sete_alegrias_de_maria/features/terco/presentation/faixa_da_alegria.dart';
+import 'package:flutter/services.dart';
 
 /// Tela de oração: mostra o passo atual e os botões Voltar / Próxima.
 class TercoPage extends ConsumerWidget {
@@ -38,7 +39,25 @@ class _Corpo extends ConsumerWidget {
   const _Corpo({required this.conteudo});
 
   final Conteudo conteudo;
+// Vibração inteligente ao avançar:
+  void _avancarComFeedback(TercoState estado, TercoController controle) {
+    if (estado.ehUltimo) return;
+    final passo = estado.passoAtual;
+    // Se acabou de rezar a 10ª Ave-Maria da dezena (10 de 10):
+    if (passo.tipo == TipoPasso.aveMaria && passo.contador == passo.total) {
+      HapticFeedback.mediumImpact(); // Vibração dupla/firme: fim da dezena
+    } else {
+      HapticFeedback.lightImpact(); // Vibração suave de conta de terço
+    }
+    controle.avancar();
+  }
 
+  // Vibração ao voltar:
+  void _voltarComFeedback(TercoState estado, TercoController controle) {
+    if (estado.ehPrimeiro) return;
+    HapticFeedback.selectionClick();
+    controle.voltar();
+  }
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final estado = ref.watch(tercoControllerProvider);
@@ -60,7 +79,11 @@ class _Corpo extends ConsumerWidget {
               final velocidade = detalhes.primaryVelocity ?? 0;
               final paraDireita = arrastoX > 40 || velocidade > 120;
               final paraEsquerda = arrastoX < -40 || velocidade < -120;
-
+              if (paraDireita) {
+                _avancarComFeedback(estado, controle);
+              } else if (paraEsquerda) {
+                _voltarComFeedback(estado, controle);
+              }
               if (paraDireita) {
                 // Deslizar para a direita (→) avança para a próxima
                 if (!estado.ehUltimo) controle.avancar();
