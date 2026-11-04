@@ -9,6 +9,25 @@ if (chaveArquivo.exists()) {
     chaveArquivo.inputStream().use { chaveProps.load(it) }
 }
 
+// O .aab da Play Store (tarefa bundleRelease) nunca pode sair com a chave de
+// teste: sem key.properties ou sem o arquivo da chave, o build para aqui.
+val gerandoAab = gradle.startParameter.taskNames.any {
+    it.contains("bundle", ignoreCase = true) && it.contains("release", ignoreCase = true)
+}
+if (gerandoAab) {
+    if (!chaveArquivo.exists()) {
+        throw GradleException(
+            "Falta android/key.properties: o .aab sairia assinado com a chave de teste."
+        )
+    }
+    val arquivoDaChave = chaveProps.getProperty("storeFile")?.let { file(it) }
+    if (arquivoDaChave == null || !arquivoDaChave.exists()) {
+        throw GradleException(
+            "A chave indicada em storeFile (key.properties) não foi encontrada: $arquivoDaChave"
+        )
+    }
+}
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
@@ -28,7 +47,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // Identificador na Play Store: NÃO mude depois de publicado.
         applicationId = "br.com.setealegrias.sete_alegrias_de_maria"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.

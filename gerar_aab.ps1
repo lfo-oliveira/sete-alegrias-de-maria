@@ -12,6 +12,21 @@ param([string]$Nome)
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
 
+# Sem a chave de assinatura, a Play Store recusa o .aab: confere ANTES de mexer na versão.
+$chaveProps = Join-Path $PSScriptRoot 'android\key.properties'
+if (-not (Test-Path $chaveProps)) {
+    throw 'Falta android\key.properties (dados da chave de assinatura). Nada foi alterado.'
+}
+$linhaChave = Select-String -Path $chaveProps -Pattern '^\s*storeFile\s*=\s*(.+?)\s*$' | Select-Object -First 1
+if (-not $linhaChave) { throw 'O key.properties não tem a linha storeFile=. Nada foi alterado.' }
+$arquivoChave = $linhaChave.Matches[0].Groups[1].Value
+if (-not [System.IO.Path]::IsPathRooted($arquivoChave)) {
+    $arquivoChave = Join-Path $PSScriptRoot "android\app\$arquivoChave"
+}
+if (-not (Test-Path $arquivoChave)) {
+    throw "A chave de assinatura não foi encontrada em: $arquivoChave. Nada foi alterado."
+}
+
 $arquivo = Join-Path $PSScriptRoot 'pubspec.yaml'
 $texto = [System.IO.File]::ReadAllText($arquivo)
 

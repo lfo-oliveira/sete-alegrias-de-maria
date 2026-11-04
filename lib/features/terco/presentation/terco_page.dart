@@ -6,6 +6,7 @@ import 'package:sete_alegrias_de_maria/features/audio/presentation/controles_aud
 import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_tamanho_letra.dart';
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
 import 'package:sete_alegrias_de_maria/features/terco/presentation/faixa_da_alegria.dart';
+import 'package:flutter/services.dart';
 
 /// Tela de oração: mostra o passo atual e os botões Voltar / Próxima.
 class TercoPage extends ConsumerWidget {
@@ -17,7 +18,7 @@ class TercoPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sete Alegrias de Maria'),
+        title: const Text('Sete Alegrias de Nossa Senhora'),
         actions: const [BotaoTamanhoLetra()],
       ),
       body: conteudo.when(
@@ -38,22 +39,69 @@ class _Corpo extends ConsumerWidget {
   const _Corpo({required this.conteudo});
 
   final Conteudo conteudo;
+// Vibração inteligente ao avançar:
+  void _avancarComFeedback(TercoState estado, TercoController controle) {
+    if (estado.ehUltimo) return;
+    final passo = estado.passoAtual;
+    // Se acabou de rezar a 10ª Ave-Maria da dezena (10 de 10):
+    if (passo.tipo == TipoPasso.aveMaria && passo.contador == passo.total) {
+      HapticFeedback.mediumImpact(); // Vibração dupla/firme: fim da dezena
+    } else {
+      HapticFeedback.lightImpact(); // Vibração suave de conta de terço
+    }
+    controle.avancar();
+  }
 
+  // Vibração ao voltar:
+  void _voltarComFeedback(TercoState estado, TercoController controle) {
+    if (estado.ehPrimeiro) return;
+    HapticFeedback.selectionClick();
+    controle.voltar();
+  }
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final estado = ref.watch(tercoControllerProvider);
     final controle = ref.read(tercoControllerProvider.notifier);
+    double arrastoX = 0;
 
     return Column(
       children: [
         LinearProgressIndicator(value: estado.progresso),
         FaixaDaAlegria(passo: estado.passoAtual, conteudo: conteudo),
+        
+        // 1. Área central de leitura da oração com detector de gestos (Swipe):
         Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onHorizontalDragStart: (_) => arrastoX = 0,
+            onHorizontalDragUpdate: (detalhes) => arrastoX += detalhes.delta.dx,
+            onHorizontalDragEnd: (detalhes) {
+              final velocidade = detalhes.primaryVelocity ?? 0;
+              final paraDireita = arrastoX > 40 || velocidade > 120;
+              final paraEsquerda = arrastoX < -40 || velocidade < -120;
+              if (paraDireita) {
+                _avancarComFeedback(estado, controle);
+              } else if (paraEsquerda) {
+                _voltarComFeedback(estado, controle);
+              }
+              if (paraDireita) {
+                // Deslizar para a direita (→) avança para a próxima
+                if (!estado.ehUltimo) controle.avancar();
+              } else if (paraEsquerda) {
+                // Deslizar para a esquerda (←) volta para a anterior
+                if (!estado.ehPrimeiro) controle.voltar();
+              }
+              arrastoX = 0;
+            },
+            child: SingleChildScrollView(
+              key: ValueKey(estado.indice),
+              padding: const EdgeInsets.all(24),
+              child: _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
+            ),
           ),
         ),
+
+        // 2. Barra inferior com áudio e botões Voltar / Próxima:
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
@@ -115,7 +163,9 @@ class _ConteudoDoPasso extends StatelessWidget {
     switch (passo.tipo) {
       case TipoPasso.meditacao:
         final alegria = conteudo.alegrias[passo.alegriaId];
-        if (alegria == null) return _Aviso('Alegria ${passo.alegriaId} não encontrada');
+        if (alegria == null) {
+          return _Aviso('Alegria ${passo.alegriaId} não encontrada');
+        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -125,8 +175,10 @@ class _ConteudoDoPasso extends StatelessWidget {
             const SizedBox(height: 4),
             Text(alegria.referencia, style: tema.titleSmall),
             const SizedBox(height: 20),
-            Text(alegria.trechoBiblico, style: tema.titleLarge),
-            const SizedBox(height: 20),
+            if (alegria.trechoBiblico.isNotEmpty) ...[
+              Text(alegria.trechoBiblico, style: tema.titleLarge),
+              const SizedBox(height: 20),
+            ],
             Text(alegria.reflexao, style: tema.bodyLarge),
           ],
         );
@@ -134,7 +186,9 @@ class _ConteudoDoPasso extends StatelessWidget {
       case TipoPasso.oracao:
       case TipoPasso.aveMaria:
         final oracao = conteudo.oracoes[passo.oracaoId];
-        if (oracao == null) return _Aviso('Oração "${passo.oracaoId}" não encontrada');
+        if (oracao == null) {
+          return _Aviso('Oração "${passo.oracaoId}" não encontrada');
+        }
         final ehAveMaria = passo.tipo == TipoPasso.aveMaria;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

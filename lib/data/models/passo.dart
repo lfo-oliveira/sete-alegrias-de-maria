@@ -70,6 +70,7 @@ abstract final class OracaoIds {
   static const paiNosso = 'pai_nosso';
   static const aveMaria = 'ave_maria';
   static const gloria = 'gloria';
+  static const intencoesPapa = 'intencoes_papa';
   static const salveRainha = 'salve_rainha';
   static const oracaoFinal = 'oracao_final';
 }

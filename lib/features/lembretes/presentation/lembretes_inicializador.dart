@@ -14,8 +14,8 @@ class LembretesInicializador extends ConsumerStatefulWidget {
       _LembretesInicializadorState();
 }
 
-class _LembretesInicializadorState
-    extends ConsumerState<LembretesInicializador> with WidgetsBindingObserver {
+class _LembretesInicializadorState extends ConsumerState<LembretesInicializador>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,10 @@ class _LembretesInicializadorState
 
   void _sincronizar() {
     // Falha ao agendar (ex.: aparelho sem suporte) não pode derrubar o app.
-    ref.read(lembretesProvider.notifier).sincronizar().catchError((Object _) {});
+    ref
+        .read(lembretesProvider.notifier)
+        .sincronizar()
+        .catchError((Object _) {});
   }
 
   @override

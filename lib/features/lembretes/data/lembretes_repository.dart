@@ -14,6 +14,7 @@ class LembretesRepository {
   final SharedPreferences _prefs;
 
   static const chavePersonalizados = 'lembretes.terco';
+  static const _chavePermissaoPedida = 'lembretes.permissao_pedida';
 
   static String _chave(int id) => 'lembretes.ativo.$id';
 
@@ -22,6 +23,12 @@ class LembretesRepository {
 
   Future<void> salvarAtivo(int id, bool ativo) =>
       _prefs.setBool(_chave(id), ativo);
+
+  /// O app já mostrou o pedido de permissão de notificação alguma vez?
+  bool permissaoJaPedida() => _prefs.getBool(_chavePermissaoPedida) ?? false;
+
+  Future<void> marcarPermissaoPedida() =>
+      _prefs.setBool(_chavePermissaoPedida, true);
 
   /// Lembretes do terço criados pelo fiel.
   List<Lembrete> lerPersonalizados() {

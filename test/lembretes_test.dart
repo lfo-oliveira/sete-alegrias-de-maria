@@ -103,6 +103,36 @@ void main() {
       expect(agendador.agenda, isNotEmpty);
     });
 
+    test('ao voltar para o app só confere a permissão, sem pedir de novo',
+        () async {
+      final (container, agendador) = await _montar(permitir: false);
+      final controle = container.read(lembretesProvider.notifier);
+      await controle.sincronizar();
+      await controle.sincronizar();
+      await controle.sincronizar();
+      expect(agendador.pedidosDePermissao, 1);
+      expect(agendador.pedidosDePermissao, 2);
+    });
+
+    test('ligar um lembrete pede a permissão de novo', () async {
+      final (container, agendador) = await _montar(
+        salvos: {'lembretes.permissao_pedida': true},
+      );
+      final controle = container.read(lembretesProvider.notifier);
+      await controle.alternar(LembretesPadrao.meioDia.id, true);
+      expect(agendador.pedidosDePermissao, 1);
+    });
+
+    test('desligar um lembrete não pede permissão', () async {
+      final (container, agendador) = await _montar(
+        salvos: {'lembretes.permissao_pedida': true},
+      );
+      final controle = container.read(lembretesProvider.notifier);
+      await controle.alternar(LembretesPadrao.meioDia.id, false);
+      expect(agendador.pedidosDePermissao, 0);
+      expect(agendador.agenda, isNotEmpty);
+    });
+
     test('sem permissão não agenda e avisa a tela', () async {
       final (container, agendador) = await _montar(permitir: false);
       await container.read(lembretesProvider.notifier).sincronizar();
@@ -131,7 +161,8 @@ void main() {
     });
 
     test('lembra o que o fiel desligou ao reabrir o app', () async {
-      final (container, _) = await _montar(salvos: {'lembretes.ativo.2': false});
+      final (container, _) =
+          await _montar(salvos: {'lembretes.ativo.2': false});
       final estado = container.read(lembretesProvider);
       expect(estado.lembretes[0].ativo, isTrue);
       expect(estado.lembretes[1].ativo, isFalse);

@@ -20,10 +20,20 @@ abstract final class TercoConfig {
     OracaoIds.oferecimento,
   ];
 
-  /// Orações rezadas depois das Ave-Marias extras, na ordem.
+  /// Pai-Nosso, Ave-Maria e Glória pelas intenções do Papa, depois das
+  /// Ave-Marias extras (forma tradicional da Coroa Franciscana).
+  static const oracoesPeloPapa = <String>[
+    OracaoIds.intencoesPapa,
+    OracaoIds.paiNosso,
+    OracaoIds.aveMaria,
+    OracaoIds.gloria,
+  ];
+
+  /// Orações que encerram o terço, na ordem. O Agradecimento ([OracaoIds.oracaoFinal])
+  /// termina pedindo a Salve Rainha, por isso vem antes dela.
   static const oracoesFinais = <String>[
-    OracaoIds.salveRainha,
     OracaoIds.oracaoFinal,
+    OracaoIds.salveRainha,
   ];
 
   /// Total de Ave-Marias esperado no terço completo (72).

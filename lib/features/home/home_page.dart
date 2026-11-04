@@ -45,7 +45,7 @@ class HomePage extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Sete Alegrias de Maria',
+                  'Sete Alegrias de Nossa Senhora',
                   style: tema.headlineLarge,
                   textAlign: TextAlign.center,
                 ),
@@ -69,10 +69,7 @@ class HomePage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   OutlinedButton(
-                    onPressed: () {
-                      ref.read(tercoControllerProvider.notifier).reiniciar();
-                      _abrirTerco(context);
-                    },
+                    onPressed: () => _confirmarERecomencar(context, ref),
                     child: const _TextoBotao('Começar de novo'),
                   ),
                 ] else
@@ -95,6 +92,34 @@ class HomePage extends ConsumerWidget {
       MaterialPageRoute<void>(builder: (_) => const TercoPage()),
     );
   }
+Future<void> _confirmarERecomencar(BuildContext context, WidgetRef ref) async {
+    final confirmar = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Recomeçar o terço?'),
+        content: const Text(
+          'O progresso salvo até aqui será apagado e você voltará ao início.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Recomeçar'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmar == true && context.mounted) {
+      ref.read(tercoControllerProvider.notifier).reiniciar();
+      _abrirTerco(context);
+    }
+  }
+  /// Pergunta antes de apagar o "onde parei": um toque sem querer não
+  /// pode fazer o fiel perder o lugar no terço.
 
   String _descreverOndeParou(TercoState terco) {
     final alegria = terco.passoAtual.alegriaId;

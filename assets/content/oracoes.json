@@ -16,7 +16,7 @@
     {
       "id": "oferecimento",
       "titulo": "Oferecimento",
-      "texto": "A DEFINIR: oferecimento da Coroa Franciscana (revisão do padre).",
+      "texto": "Ó piedosíssima Virgem Maria, purificai nossos lábios e nossos corações, para que possamos, dignamente, recitar a vossa Coroa de Alegrias. Nós vo-la oferecemos para vossa glória, exaltação da Santa Igreja, honra de vosso Filho Jesus, em ação de graças por todos os benefícios que nos tendes alcançado e em sufrágio das almas do purgatório. Amém.",
       "audio": null
     },
     {
@@ -38,6 +38,12 @@
       "audio": null
     },
     {
+      "id": "intencoes_papa",
+      "titulo": "Pelas intenções do Papa",
+      "texto": "Rezemos agora um Pai-Nosso, uma Ave-Maria e um Glória ao Pai pelas intenções do Santo Padre, o Papa.",
+      "audio": null
+    },
+    {
       "id": "salve_rainha",
       "titulo": "Salve Rainha",
       "texto": "Salve, Rainha, Mãe de misericórdia, vida, doçura e esperança nossa, salve! A vós bradamos, os degredados filhos de Eva; a vós suspiramos, gemendo e chorando neste vale de lágrimas. Eia, pois, advogada nossa, esses vossos olhos misericordiosos a nós volvei; e depois deste desterro mostrai-nos Jesus, bendito fruto do vosso ventre, ó clemente, ó piedosa, ó doce sempre Virgem Maria. Rogai por nós, Santa Mãe de Deus, para que sejamos dignos das promessas de Cristo. Amém.",
@@ -45,8 +51,8 @@
     },
     {
       "id": "oracao_final",
-      "titulo": "Oração Final",
-      "texto": "A DEFINIR: oração final (revisão do padre).",
+      "titulo": "Oração Final (Lembrai-vos)",
+      "texto": "Lembrai-vos, ó puríssima Virgem Maria, que nunca se ouviu dizer que algum daqueles que têm recorrido à vossa proteção, implorado a vossa assistência e reclamado o vosso socorro, fosse por vós desamparado. Animado eu, pois, com igual confiança, a vós, Virgem das virgens, como a Mãe recorro, de vós me valho e, gemendo sob o peso dos meus pecados, me prostro a vossos pés. Não desprezeis as minhas súplicas, ó Mãe do Verbo encarnado, mas acolhei-as favoravelmente e dignai-vos de as atender. Amém.",
       "audio": null
     }
   ]

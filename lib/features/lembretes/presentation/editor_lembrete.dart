@@ -71,8 +71,7 @@ class _EditorState extends State<_Editor> {
     if (escolhido != null) setState(() => _horario = escolhido);
   }
 
-  String get _horarioTexto =>
-      '${_horario.hour.toString().padLeft(2, '0')}:'
+  String get _horarioTexto => '${_horario.hour.toString().padLeft(2, '0')}:'
       '${_horario.minute.toString().padLeft(2, '0')}';
 
   @override
@@ -150,8 +149,8 @@ class _EditorState extends State<_Editor> {
             ),
             if (editando)
               TextButton(
-                onPressed: () => Navigator.of(context)
-                    .pop(const ResultadoEditor.excluir()),
+                onPressed: () =>
+                    Navigator.of(context).pop(const ResultadoEditor.excluir()),
                 child: const Text('Excluir este lembrete'),
               ),
           ],
