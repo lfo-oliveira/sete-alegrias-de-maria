@@ -8,6 +8,7 @@ import 'package:sete_alegrias_de_maria/features/terco/application/terco_controll
 import 'package:sete_alegrias_de_maria/features/terco/presentation/faixa_da_alegria.dart';
 import 'package:flutter/services.dart';
 import 'package:wakelock_plus/wakelock_plus.dart'; 
+import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_modo_tema.dart';
 
 /// Tela de oração: mostra o passo atual e os botões Voltar / Próxima.
 /// Tela de oração: mostra o passo atual e os botões Voltar / Próxima.
@@ -38,7 +39,10 @@ class _TercoPageState extends ConsumerState<TercoPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sete Alegrias de Nossa Senhora'),
-        actions: const [BotaoTamanhoLetra()],
+        actions: const [
+          BotaoTamanhoLetra(),
+          BotaoModoTema(),
+        ],
       ),
       body: conteudo.when(
         loading: () => const Center(child: CircularProgressIndicator()),
