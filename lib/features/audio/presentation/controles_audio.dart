@@ -40,6 +40,7 @@ class ControlesAudio extends ConsumerWidget {
                 icon: Icon(audio.tocando ? Icons.pause : Icons.play_arrow),
                 label: Text(audio.tocando ? 'Pausar' : 'Ouvir'),
               ),
+              const SizedBox(width: 8),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

@@ -12,6 +12,7 @@ class AudioState {
     this.tocando = false,
     this.avancoAutomatico = true,
     this.erro = false,
+    this.velocidade = 1.0, // Construtor
   });
 
   /// Há um áudio tocando agora.
@@ -23,11 +24,20 @@ class AudioState {
   /// O último áudio não pôde ser tocado.
   final bool erro;
 
-  AudioState copyWith({bool? tocando, bool? avancoAutomatico, bool? erro}) =>
+  // <-- ADICIONAR ESTA LINHA ABAIXO:
+  final double velocidade;
+
+  AudioState copyWith({
+    bool? tocando,
+    bool? avancoAutomatico,
+    bool? erro,
+    double? velocidade,
+  }) =>
       AudioState(
         tocando: tocando ?? this.tocando,
         avancoAutomatico: avancoAutomatico ?? this.avancoAutomatico,
         erro: erro ?? this.erro,
+        velocidade: velocidade ?? this.velocidade,
       );
 }
 
@@ -106,6 +116,7 @@ class AudioController extends AutoDisposeNotifier<AudioState> {
     }
   }
 
+  // MÉTODO DO AVANÇO AUTOMÁTICO (QUE HAVIA SIDO APAGADO):
   void definirAvancoAutomatico(bool valor) {
     if (valor == state.avancoAutomatico) return;
     state = state.copyWith(avancoAutomatico: valor);
@@ -113,6 +124,13 @@ class AudioController extends AutoDisposeNotifier<AudioState> {
       ref.read(configuracoesRepositoryProvider).salvarAvancoAutomatico(valor),
     );
   }
+
+  Future<void> definirVelocidade(double valor) async {
+    if (valor == state.velocidade) return;
+    state = state.copyWith(velocidade: valor);
+    await _player.definirVelocidade(valor);
+  }
+
 
   Future<void> _tocarPassoAtual() async {
     final caminho = _caminhoAtual();
@@ -124,6 +142,7 @@ class AudioController extends AutoDisposeNotifier<AudioState> {
 
     final minhaRodada = ++_rodada;
     try {
+      await _player.definirVelocidade(state.velocidade); 
       await _player.carregarETocar(caminho);
       if (minhaRodada != _rodada) {
         await _player.parar(); // o fiel já mudou de passo
