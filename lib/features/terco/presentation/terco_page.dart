@@ -10,6 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:wakelock_plus/wakelock_plus.dart'; 
 import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_modo_tema.dart';
 import 'package:sete_alegrias_de_maria/features/terco/presentation/indicador_contas.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_vibracao.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/application/vibracao_controller.dart';
 
 
 /// Tela de oração: mostra o passo atual e os botões Voltar / Próxima.
@@ -41,6 +43,7 @@ class _TercoPageState extends ConsumerState<TercoPage> {
       appBar: AppBar(
         title: const Text('Sete Alegrias de Nossa Senhora'),
         actions: const [
+          BotaoVibracao(),
           BotaoTamanhoLetra(),
           BotaoModoTema(),
         ],
@@ -59,29 +62,40 @@ class _TercoPageState extends ConsumerState<TercoPage> {
   }
 }
 
-class _Corpo extends ConsumerWidget {
+  class _Corpo extends ConsumerWidget {
   const _Corpo({required this.conteudo});
 
   final Conteudo conteudo;
-// Vibração inteligente ao avançar:
-  void _avancarComFeedback(TercoState estado, TercoController controle) {
+
+  void _avancarComFeedback(
+    TercoState estado,
+    TercoController controle,
+    WidgetRef ref,
+  ) {
     if (estado.ehUltimo) return;
-    final passo = estado.passoAtual;
-    // Se acabou de rezar a 10ª Ave-Maria da dezena (10 de 10):
-    if (passo.tipo == TipoPasso.aveMaria && passo.contador == passo.total) {
-      HapticFeedback.mediumImpact(); // Vibração dupla/firme: fim da dezena
-    } else {
-      HapticFeedback.lightImpact(); // Vibração suave de conta de terço
+    if (ref.read(vibracaoProvider)) {
+      final passo = estado.passoAtual;
+      if (passo.tipo == TipoPasso.aveMaria && passo.contador == passo.total) {
+        HapticFeedback.mediumImpact();
+      } else {
+        HapticFeedback.lightImpact();
+      }
     }
     controle.avancar();
   }
 
-  // Vibração ao voltar:
-  void _voltarComFeedback(TercoState estado, TercoController controle) {
+  void _voltarComFeedback(
+    TercoState estado,
+    TercoController controle,
+    WidgetRef ref,
+  ) {
     if (estado.ehPrimeiro) return;
-    HapticFeedback.selectionClick();
+    if (ref.read(vibracaoProvider)) {
+      HapticFeedback.selectionClick();
+    }
     controle.voltar();
   }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final estado = ref.watch(tercoControllerProvider);
@@ -92,8 +106,6 @@ class _Corpo extends ConsumerWidget {
       children: [
         LinearProgressIndicator(value: estado.progresso),
         FaixaDaAlegria(passo: estado.passoAtual, conteudo: conteudo),
-        
-        // 1. Área central de leitura da oração com detector de gestos (Swipe):
         Expanded(
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -103,29 +115,16 @@ class _Corpo extends ConsumerWidget {
               final velocidade = detalhes.primaryVelocity ?? 0;
               final paraDireita = arrastoX > 40 || velocidade > 120;
               final paraEsquerda = arrastoX < -40 || velocidade < -120;
+
               if (paraDireita) {
-                _avancarComFeedback(estado, controle);
+                _avancarComFeedback(estado, controle, ref);
               } else if (paraEsquerda) {
-                _voltarComFeedback(estado, controle);
+                _voltarComFeedback(estado, controle, ref);
               }
-              // if (paraDireita) {
-              //   // Deslizar para a direita (→) avança para a próxima
-              //   if (!estado.ehUltimo) controle.avancar();
-              // } else if (paraEsquerda) {
-              //   // Deslizar para a esquerda (←) volta para a anterior
-              //   if (!estado.ehPrimeiro) controle.voltar();
-              // }
               arrastoX = 0;
             },
-          //   child: SingleChildScrollView(
-          //     key: ValueKey(estado.indice),
-          //     padding: const EdgeInsets.all(24),
-          //     child: _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
-          //   ),
-          // ),
-        // ),
-        child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 280),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 280),
               switchInCurve: Curves.easeOutCubic,
               switchOutCurve: Curves.easeInCubic,
               transitionBuilder: (child, animation) {
@@ -138,31 +137,27 @@ class _Corpo extends ConsumerWidget {
                   child: FadeTransition(opacity: animation, child: child),
                 );
               },
-                // duration: const Duration(milliseconds: 250),
-                // switchInCurve: Curves.easeIn,
-                // switchOutCurve: Curves.easeOut,
-                layoutBuilder: (currentChild, previousChildren) => Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    ...previousChildren,
-                    if (currentChild != null) currentChild,
-                  ],
-                ),
-                child: SingleChildScrollView(
-                  key: ValueKey(estado.indice),
-                  padding: const EdgeInsets.all(24),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: _ConteudoDoPasso(
-                      passo: estado.passoAtual,
-                      conteudo: conteudo,
-                    ),
+              layoutBuilder: (currentChild, previousChildren) => Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  ...previousChildren,
+                  if (currentChild != null) currentChild,
+                ],
+              ),
+              child: SingleChildScrollView(
+                key: ValueKey(estado.indice),
+                padding: const EdgeInsets.all(24),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: _ConteudoDoPasso(
+                    passo: estado.passoAtual,
+                    conteudo: conteudo,
                   ),
                 ),
               ),
+            ),
           ),
         ),
-        // 2. Barra inferior com áudio e botões Voltar / Próxima:
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
@@ -174,7 +169,9 @@ class _Corpo extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: estado.ehPrimeiro ? null : () => _voltarComFeedback(estado, controle),                       
+                        onPressed: estado.ehPrimeiro
+                            ? null
+                            : () => _voltarComFeedback(estado, controle, ref),
                         child: const Text('Voltar'),
                       ),
                     ),
@@ -183,11 +180,17 @@ class _Corpo extends ConsumerWidget {
                       flex: 2,
                       child: FilledButton(
                         onPressed: estado.ehUltimo
-                            ? () async{
+                            ? () async {
                                 final mensagens = ScaffoldMessenger.of(context);
-                                await HapticFeedback.heavyImpact(); // Vibração forte de conclusão
-                                await Future<void>.delayed(const Duration(milliseconds: 120)); // Pequena pausa para a vibração ser sentida
-                                await HapticFeedback.heavyImpact(); // Segunda vibração forte de conclusão
+
+                                if (ref.read(vibracaoProvider)) {
+                                  await HapticFeedback.heavyImpact();
+                                  await Future<void>.delayed(
+                                    const Duration(milliseconds: 120),
+                                  );
+                                  await HapticFeedback.heavyImpact();
+                                }
+
                                 controle.concluir();
                                 if (context.mounted) {
                                   Navigator.of(context).pop();
@@ -200,7 +203,7 @@ class _Corpo extends ConsumerWidget {
                                   );
                                 }
                               }
-                            : () => _avancarComFeedback(estado, controle),
+                            : () => _avancarComFeedback(estado, controle, ref),
                         child: Text(estado.ehUltimo ? 'Concluir' : 'Próxima'),
                       ),
                     ),

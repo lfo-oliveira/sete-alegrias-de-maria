@@ -41,6 +41,8 @@ class BackupService {
         v is List && v.every((d) => d is String && _data.hasMatch(d)),
     RegExp(r'^config\.tamanho_letra$'): (v) => v is String,
     RegExp(r'^config\.audio_avanco_automatico$'): (v) => v is bool,
+    RegExp(r'^config\.modo_tema$'): (v) => v is String,
+    RegExp(r'^config\.vibracao$'): (v) => v is bool, // <-- Adicionada validação no backup
     RegExp(r'^lembretes\.ativo\.\d+$'): (v) => v is bool,
     RegExp(r'^lembretes\.terco$'): (v) =>
         v is String && LembretesRepository.textoValido(v),
