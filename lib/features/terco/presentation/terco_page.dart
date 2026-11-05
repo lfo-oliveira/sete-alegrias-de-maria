@@ -136,7 +136,7 @@ class _Corpo extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: estado.ehPrimeiro ? null : controle.voltar,
+                        onPressed: estado.ehPrimeiro ? null : () => _voltarComFeedback(estado, controle),                       
                         child: const Text('Voltar'),
                       ),
                     ),
@@ -145,19 +145,24 @@ class _Corpo extends ConsumerWidget {
                       flex: 2,
                       child: FilledButton(
                         onPressed: estado.ehUltimo
-                            ? () {
+                            ? () async{
                                 final mensagens = ScaffoldMessenger.of(context);
+                                await HapticFeedback.heavyImpact(); // Vibração forte de conclusão
+                                await Future<void>.delayed(const Duration(milliseconds: 120)); // Pequena pausa para a vibração ser sentida
+                                await HapticFeedback.heavyImpact(); // Segunda vibração forte de conclusão
                                 controle.concluir();
-                                Navigator.of(context).pop();
-                                mensagens.showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Terço concluído. Deus te abençoe! 🙏',
+                                if (context.mounted) {
+                                  Navigator.of(context).pop();
+                                  mensagens.showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Terço concluído. Deus te abençoe! 🙏',
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                }
                               }
-                            : controle.avancar,
+                            : () => _avancarComFeedback(estado, controle),
                         child: Text(estado.ehUltimo ? 'Concluir' : 'Próxima'),
                       ),
                     ),
