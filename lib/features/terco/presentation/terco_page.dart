@@ -117,14 +117,51 @@ class _Corpo extends ConsumerWidget {
               // }
               arrastoX = 0;
             },
-            child: SingleChildScrollView(
-              key: ValueKey(estado.indice),
-              padding: const EdgeInsets.all(24),
-              child: _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
-            ),
+          //   child: SingleChildScrollView(
+          //     key: ValueKey(estado.indice),
+          //     padding: const EdgeInsets.all(24),
+          //     child: _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
+          //   ),
+          // ),
+        // ),
+        child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 280),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              transitionBuilder: (child, animation) {
+                final deslize = Tween<Offset>(
+                  begin: const Offset(-0.25, 0.0),
+                  end: Offset.zero,
+                ).animate(animation);
+                return SlideTransition(
+                  position: deslize,
+                  child: FadeTransition(opacity: animation, child: child),
+                );
+              },
+                // duration: const Duration(milliseconds: 250),
+                // switchInCurve: Curves.easeIn,
+                // switchOutCurve: Curves.easeOut,
+                layoutBuilder: (currentChild, previousChildren) => Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    ...previousChildren,
+                    if (currentChild != null) currentChild,
+                  ],
+                ),
+                child: SingleChildScrollView(
+                  key: ValueKey(estado.indice),
+                  padding: const EdgeInsets.all(24),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: _ConteudoDoPasso(
+                      passo: estado.passoAtual,
+                      conteudo: conteudo,
+                    ),
+                  ),
+                ),
+              ),
           ),
         ),
-
         // 2. Barra inferior com áudio e botões Voltar / Próxima:
         SafeArea(
           child: Padding(
