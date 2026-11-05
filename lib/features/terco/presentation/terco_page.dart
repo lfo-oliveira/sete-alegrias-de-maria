@@ -12,6 +12,8 @@ import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao
 import 'package:sete_alegrias_de_maria/features/terco/presentation/indicador_contas.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_vibracao.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/application/vibracao_controller.dart';
+import 'package:share_plus/share_plus.dart'; 
+import 'package:sete_alegrias_de_maria/data/models/alegria.dart';
 
 
 /// Tela de oração: mostra o passo atual e os botões Voltar / Próxima.
@@ -219,11 +221,39 @@ class _TercoPageState extends ConsumerState<TercoPage> {
 }
 
 /// Decide o que desenhar conforme o tipo do passo.
+/// Decide o que desenhar conforme o tipo do passo.
 class _ConteudoDoPasso extends StatelessWidget {
   const _ConteudoDoPasso({required this.passo, required this.conteudo});
 
   final Passo passo;
   final Conteudo conteudo;
+
+  void _compartilharAlegria(BuildContext context, Alegria alegria) {
+    final box = context.findRenderObject() as RenderBox?;
+    final origem = box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+
+    final texto = [
+      '🕊️ Sete Alegrias de Nossa Senhora (Coroa Franciscana)',
+      '',
+      '${alegria.id}ª Alegria: ${alegria.titulo} (${alegria.referencia})',
+      '',
+      if (alegria.trechoBiblico.isNotEmpty) ...[
+        '"${alegria.trechoBiblico.trim()}"',
+        '',
+      ],
+      'Meditação: ${alegria.reflexao.trim()}',
+      '',
+      'Reze conosco a Coroa Franciscana no app Sete Alegrias de Maria! 🙏',
+    ].join('\n');
+
+    SharePlus.instance.share(
+      ShareParams(
+        text: texto,
+        subject: '${alegria.id}ª Alegria de Maria: ${alegria.titulo}',
+        sharePositionOrigin: origem,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +268,18 @@ class _ConteudoDoPasso extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${alegria.id}ª Alegria', style: tema.titleMedium),
+            Row(
+              children: [
+                Expanded(
+                  child: Text('${alegria.id}ª Alegria', style: tema.titleMedium),
+                ),
+                IconButton(
+                  tooltip: 'Compartilhar meditação',
+                  icon: const Icon(Icons.share_outlined),
+                  onPressed: () => _compartilharAlegria(context, alegria),
+                ),
+              ],
+            ),
             const SizedBox(height: 4),
             Text(alegria.titulo, style: tema.headlineMedium),
             const SizedBox(height: 4),
@@ -252,6 +293,7 @@ class _ConteudoDoPasso extends StatelessWidget {
           ],
         );
 
+      // <-- OS DOIS CASES DEVEM ESTAR PRESENTES AQUI:
       case TipoPasso.oracao:
       case TipoPasso.aveMaria:
         final oracao = conteudo.oracoes[passo.oracaoId];
