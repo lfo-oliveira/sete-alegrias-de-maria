@@ -9,7 +9,7 @@ import 'package:sete_alegrias_de_maria/features/terco/domain/terco_sequencia.dar
 
 /// Confere os textos REAIS de assets/content/, que vão para a Play Store.
 void main() {
-  const idiomas = ['pt', 'es', 'en', 'la'];
+  const idiomas = ['pt', 'es', 'en', 'la', 'it'];
 
   for (final idioma in idiomas) {
     group('Conteúdo em $idioma', () {

@@ -38,6 +38,11 @@ const opcoesDeIdioma = <OpcaoIdioma>[
     detalhe: 'The Franciscan Crown',
   ),
   OpcaoIdioma(
+    locale: Locale('it'),
+    nomeNativo: 'Italiano',
+    detalhe: 'Corona Francescana',
+  ),
+  OpcaoIdioma(
     locale: Locale('la'),
     nomeNativo: 'Latina',
     detalhe: 'Corona Septem Gaudiorum B.V.M.',

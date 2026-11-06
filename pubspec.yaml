@@ -42,5 +42,6 @@ flutter:
     - assets/content/es/
     - assets/content/en/
     - assets/content/la/
+    - assets/content/it/
     - assets/audio/oracoes/
     - assets/audio/leituras/
