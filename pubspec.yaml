@@ -38,6 +38,6 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/content/
+    - assets/content/pt/
     - assets/audio/oracoes/
     - assets/audio/leituras/

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sete_alegrias_de_maria/data/models/alegria.dart';
 import 'package:sete_alegrias_de_maria/data/models/oracao.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/application/idioma_controller.dart';
 
 /// Todo o conteúdo de texto do app, já carregado e indexado por id.
 class Conteudo {
@@ -13,15 +14,14 @@ class Conteudo {
   final Map<int, Alegria> alegrias;
 }
 
-/// Lê os textos dos arquivos JSON em assets/content/.
-/// Para atualizar textos, edite os JSON: não precisa mexer no código.
+/// Lê os textos dos arquivos JSON em assets/content/<idioma>/.
+/// Se o idioma solicitado não tiver o arquivo, faz fallback automático para 'pt'.
 class ConteudoRepository {
-  static const _caminhoOracoes = 'assets/content/oracoes.json';
-  static const _caminhoAlegrias = 'assets/content/alegrias.json';
+  static const idiomaPadrao = 'pt';
 
-  Future<Conteudo> carregar() async {
-    final oracoesJson = await _lerJson(_caminhoOracoes);
-    final alegriasJson = await _lerJson(_caminhoAlegrias);
+  Future<Conteudo> carregar([String idioma = idiomaPadrao]) async {
+    final oracoesJson = await _lerJsonSeguro(idioma, 'oracoes.json');
+    final alegriasJson = await _lerJsonSeguro(idioma, 'alegrias.json');
 
     final oracoes = <String, Oracao>{
       for (final item in oracoesJson['oracoes'] as List<dynamic>)
@@ -36,6 +36,21 @@ class ConteudoRepository {
     return Conteudo(oracoes: oracoes, alegrias: alegrias);
   }
 
+  Future<Map<String, dynamic>> _lerJsonSeguro(
+    String idioma,
+    String arquivo,
+  ) async {
+    try {
+      return await _lerJson('assets/content/$idioma/$arquivo');
+    } catch (_) {
+      // Se não existir o arquivo no idioma solicitado, usa o português como fallback.
+      if (idioma != idiomaPadrao) {
+        return await _lerJson('assets/content/$idiomaPadrao/$arquivo');
+      }
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>> _lerJson(String caminho) async {
     final texto = await rootBundle.loadString(caminho);
     return jsonDecode(texto) as Map<String, dynamic>;
@@ -46,7 +61,8 @@ final conteudoRepositoryProvider = Provider<ConteudoRepository>(
   (ref) => ConteudoRepository(),
 );
 
-/// Carrega o conteúdo uma vez e guarda em memória.
-final conteudoProvider = FutureProvider<Conteudo>(
-  (ref) => ref.watch(conteudoRepositoryProvider).carregar(),
-);
+/// Carrega o conteúdo conforme o idioma selecionado e guarda em memória.
+final conteudoProvider = FutureProvider<Conteudo>((ref) {
+  final idioma = ref.watch(idiomaProvider);
+  return ref.watch(conteudoRepositoryProvider).carregar(idioma);
+});

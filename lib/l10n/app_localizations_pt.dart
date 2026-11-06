@@ -1,7 +1,12 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
+// ignore_for_file: type=lint
+
+/// The translations for Portuguese (`pt`).
 class AppLocalizationsPt extends AppLocalizations {
-  AppLocalizationsPt([super.locale = 'pt']);
+  AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
   String get tituloApp => 'Sete Alegrias de Nossa Senhora';
@@ -22,7 +27,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get parouNasOracoes => 'Você parou nas orações.';
 
   @override
-  String parouNaAlegria(int alegria) => 'Você parou na $alegriaª alegria.';
+  String parouNaAlegria(int alegria) {
+    return 'Você parou na $alegriaª alegria.';
+  }
 
   @override
   String get dialogRecomecarTitulo => 'Recomeçar o terço?';
@@ -50,11 +57,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get tercoConcluidoMensagem => 'Terço concluído. Deus te abençoe! 🙏';
 
   @override
-  String erroCarregarOracoes(String erro) =>
-      'Não foi possível carregar as orações.\n$erro';
+  String erroCarregarOracoes(String erro) {
+    return 'Não foi possível carregar as orações.\n$erro';
+  }
 
   @override
-  String aveMariaContador(int atual, int total) => 'Ave-Maria $atual de $total';
+  String aveMariaContador(int atual, int total) {
+    return 'Ave-Maria $atual de $total';
+  }
 
   @override
   String get ouvir => 'Ouvir';
@@ -69,8 +79,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get erroTocarAudio => 'Não foi possível tocar este áudio.';
 
   @override
-  String velocidadeAudio(String velocidade) =>
-      'Velocidade do áudio: $velocidade';
+  String velocidadeAudio(String velocidade) {
+    return 'Velocidade do áudio: $velocidade';
+  }
 
   @override
   String get lembretes => 'Lembretes';
