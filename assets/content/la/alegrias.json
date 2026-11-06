@@ -1,0 +1,68 @@
+{
+  "versao": 1,
+  "alegrias": [
+    {
+      "id": 1,
+      "titulo": "Annuntiatio Beatæ Mariæ Virginis",
+      "referencia": "Lc 1, 26-38",
+      "trecho_biblico": "²⁶ In mense autem sexto, missus est angelus Gabriel a Deo in civitatem Galilææ, cui nomen Nazareth, ²⁷ ad virginem desponsatam viro, cui nomen erat Joseph, de domo David: et nomen virginis Maria. ²⁸ Et ingressus angelus ad eam dixit: “Ave gratia plena: Dominus tecum: benedicta tu in mulieribus.” ... ³⁸ Dixit autem Maria: “Ecce ancilla Domini: fiat mihi secundum verbum tuum.” Et discessit ab ea angelus.",
+      "reflexao": "Gaudium Maríæ in audiendo ab Archángelo Gabriéle se Matrem Redemptóris futúram.",
+      "revisado_por": null,
+      "data_revisao": null
+    },
+    {
+      "id": 2,
+      "titulo": "Visitatio Beatæ Mariæ Virginis",
+      "referencia": "Lc 1, 39-56",
+      "trecho_biblico": "³⁹ Exsurgens autem Maria in diebus illis, abiit in montana cum festinatione in civitatem Juda: ⁴⁰ et intravit in domum Zachariæ, et salutavit Elisabeth. ⁴¹ Et factum est, ut audivit salutationem Mariæ Elisabeth, exsultavit infans in utero ejus: et repleta est Spiritu Sancto Elisabeth: ⁴² et exclamavit voce magna, et dixit: “Benedicta tu inter mulieres, et benedictus fructus ventris tui.” ⁴⁶ Et ait Maria: “Magnificat anima mea Dominum, ⁴⁷ et exsultavit spiritus meus in Deo salutari meo.”",
+      "reflexao": "Gaudium Maríæ in visitanda cognata sua Elisabeth et Mater Dei salutata.",
+      "revisado_por": null,
+      "data_revisao": null
+    },
+    {
+      "id": 3,
+      "titulo": "Nativitas Domini nostri Iesu Christi",
+      "referencia": "Lc 2, 1-14",
+      "trecho_biblico": "⁴ Ascendit autem et Joseph a Galilæa de civitate Nazareth in Judæam, in civitatem David, quæ vocatur Bethlehem: eo quod esset de domo et familia David, ⁵ ut profiteretur cum Maria desponsata sibi uxore prægnante. ⁶ Factum est autem, cum essent ibi, impleti sunt dies ut pareret. ⁷ Et peperit filium suum primogenitum, et pannis eum involvit, et reclinavit eum in præsepio: quia non erat eis locus in diversorio. ... ¹⁰ Et dixit illis angelus: “Nolite timere: ecce enim evangelizo vobis gaudium magnum, quod erit omni populo: ¹¹ quia natus est vobis hodie Salvator, qui est Christus Dominus, in civitate David.”",
+      "reflexao": "Gaudium Maríæ in pariendo Salvatorem Iesum Christum in stabulo Bethlemitico.",
+      "revisado_por": null,
+      "data_revisao": null
+    },
+    {
+      "id": 4,
+      "titulo": "Adoratio Magorum",
+      "referencia": "Mt 2, 1-12",
+      "trecho_biblico": "¹ Cum ergo natus esset Jesus in Bethlehem Juda in diebus Herodis regis, ecce magi ab oriente venerunt Jerosolymam, ² dicentes: “Ubi est qui natus est rex Judæorum? vidimus enim stellam ejus in oriente, et venimus adorare eum.” ... ¹⁰ Videntes autem stellam gavisi sunt gaudio magno valde. ¹¹ Et intrantes domum, invenerunt puerum cum Maria matre ejus, et procidentes adoraverunt eum: et apertis thesauris suis obtulerunt ei munera, aurum, thus, et myrrham.",
+      "reflexao": "Gaudium Maríæ in videndo Magos adorantes Puerum Iesum et munera pretiosa offerentes.",
+      "revisado_por": null,
+      "data_revisao": null
+    },
+    {
+      "id": 5,
+      "titulo": "Inventio Pueri Iesu in Templo",
+      "referencia": "Lc 2, 41-50",
+      "trecho_biblico": "⁴¹ Et ibant parentes ejus per omnes annos in Jerusalem, in die solemni Paschæ. ⁴² Et cum factus esset annorum duodecim, ascendentibus illis Jerosolymam secundum consuetudinem diei festi, ... ⁴⁶ Et factum est, post triduum invenerunt illum in templo sedentem in medio doctorum, audientem illos, et interrogantem eos. ⁴⁷ Stupebant autem omnes qui eum audiebant, super prudentia et responsis ejus.",
+      "reflexao": "Gaudium Maríæ in reperiendo Puerum Iesum in Templo inter doctores post triduum doloris.",
+      "revisado_por": null,
+      "data_revisao": null
+    },
+    {
+      "id": 6,
+      "titulo": "Resurrectio Domini nostri Iesu Christi",
+      "referencia": "Lc 24, 1-12",
+      "trecho_biblico": "¹ Una autem sabbati valde diluculo venerunt ad monumentum, portantes quæ paraverant aromata: ² et invenerunt lapidem revolutum a monumento. ³ Et ingressæ non invenerunt corpus Domini Jesu. ... ⁵ cum timerent autem, et declinarent vultum in terram, dixerunt ad illas: “Quid quæritis viventem cum mortuis? ⁶ Non est hic, sed surrexit.”",
+      "reflexao": "Gaudium Maríæ in videndo Iesum a mortuis gloriosissime resurgentem et victorem mortis.",
+      "revisado_por": null,
+      "data_revisao": null
+    },
+    {
+      "id": 7,
+      "titulo": "Assumptio et Coronatio Beatæ Mariæ Virginis",
+      "referencia": "Ap 12, 1",
+      "trecho_biblico": "¹ Et signum magnum apparuit in cælo: Mulier amicta sole, et luna sub pedibus ejus, et in capite ejus corona stellarum duodecim.",
+      "reflexao": "Gaudium Maríæ in cælum corpore et anima assumptæ et a Sanctissima Trinitate Reginæ universi coronatæ.",
+      "revisado_por": null,
+      "data_revisao": null
+    }
+  ]
+}

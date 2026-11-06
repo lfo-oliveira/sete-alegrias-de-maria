@@ -1,0 +1,48 @@
+{
+  "@@locale": "la",
+  "tituloApp": "Septem Gaudia Beatæ Mariæ Virginis",
+  "subtituloApp": "Corona Franciscana",
+
+  "rezarTerco": "Coronam Recitare",
+  "continuarOndeParei": "Continuare ubi destiti",
+  "comecarDeNovo": "De novo incipere",
+  "parouNasOracoes": "In orationibus mansisti.",
+  "parouNaAlegria": "In {alegria}º Gaudio mansisti.",
+
+  "dialogRecomecarTitulo": "De novo incipere?",
+  "dialogRecomecarConteudo": "Progressus servatus delebitur et ad initium reverteris.",
+  "cancelar": "Cancellare",
+  "recomecar": "De novo incipere",
+
+  "voltar": "Retro",
+  "proxima": "Sequens",
+  "concluir": "Finis",
+  "tercoConcluidoMensagem": "Corona peracta. Deus te benedicat! 🙏",
+  "erroCarregarOracoes": "Orationes legi non potuerunt.\n{erro}",
+
+  "aveMariaContador": "Ave Maria {atual} ex {total}",
+
+  "ouvir": "Audire",
+  "pausar": "Pausa",
+  "avancoAutomatico": "Progressus automaticus",
+  "erroTocarAudio": "Hoc sonum agere non potuit.",
+  "velocidadeAudio": "Velocitas: {velocidade}",
+
+  "lembretes": "Monitiones",
+  "backup": "Copia salutis",
+  "tamanhoLetra": "Magnitudo litterarum",
+  "temaDoApp": "Forma app",
+  "temaClaro": "Lux",
+  "temaEscuro": "Nox",
+  "temaSistema": "Automata",
+  "vibracaoAtivada": "Vibratio actuosa",
+  "vibracaoDesativada": "Vibratio inactiva",
+
+  "tercosRezados": "Rosaria recitata",
+  "diasSeguidos": "Dies continui",
+  "estaSemana": "Hac hebdomada",
+
+  "compartilhar": "Communicare",
+  "fechar": "Claudere",
+  "confirmar": "Confirmare"
+}
