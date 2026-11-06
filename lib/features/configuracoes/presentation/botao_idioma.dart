@@ -75,7 +75,7 @@ class BotaoIdioma extends ConsumerWidget {
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
-      builder: (_) => SafeArea(
+      builder: (sheetContext) => SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
           child: Column(
@@ -93,10 +93,10 @@ class BotaoIdioma extends ConsumerWidget {
                       ? const Icon(Icons.check)
                       : null,
                   onTap: () {
+                    Navigator.of(sheetContext).pop();
                     ref
                         .read(idiomaControllerProvider.notifier)
                         .definirIdioma(opcao.locale);
-                    Navigator.pop(context);
                   },
                 ),
             ],

@@ -39,7 +39,7 @@ class BotaoModoTema extends ConsumerWidget {
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
-      builder: (_) => SafeArea(
+      builder: (sheetContext) => SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
           child: Column(
@@ -54,8 +54,8 @@ class BotaoModoTema extends ConsumerWidget {
                 selected: atual == ThemeMode.system,
                 trailing: atual == ThemeMode.system ? const Icon(Icons.check) : null,
                 onTap: () {
+                  Navigator.of(sheetContext).pop();
                   ref.read(modoTemaProvider.notifier).definir(ThemeMode.system);
-                  Navigator.pop(context);
                 },
               ),
               ListTile(
@@ -64,8 +64,8 @@ class BotaoModoTema extends ConsumerWidget {
                 selected: atual == ThemeMode.light,
                 trailing: atual == ThemeMode.light ? const Icon(Icons.check) : null,
                 onTap: () {
+                  Navigator.of(sheetContext).pop();
                   ref.read(modoTemaProvider.notifier).definir(ThemeMode.light);
-                  Navigator.pop(context);
                 },
               ),
               ListTile(
@@ -74,8 +74,8 @@ class BotaoModoTema extends ConsumerWidget {
                 selected: atual == ThemeMode.dark,
                 trailing: atual == ThemeMode.dark ? const Icon(Icons.check) : null,
                 onTap: () {
+                  Navigator.of(sheetContext).pop();
                   ref.read(modoTemaProvider.notifier).definir(ThemeMode.dark);
-                  Navigator.pop(context);
                 },
               ),
             ],

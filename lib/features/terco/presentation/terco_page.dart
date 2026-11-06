@@ -45,7 +45,16 @@ class _TercoPageState extends ConsumerState<TercoPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n?.tituloApp ?? 'Sete Alegrias de Nossa Senhora'),
+        leading: IconButton(
+          tooltip: l10n?.voltar ?? 'Voltar',
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          l10n?.tituloApp ?? 'Sete Alegrias de Nossa Senhora',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         actions: const [
           BotaoVibracao(),
           BotaoTamanhoLetra(),
