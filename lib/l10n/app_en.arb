@@ -1,0 +1,48 @@
+{
+  "@@locale": "en",
+  "tituloApp": "Seven Joys of Our Lady",
+  "subtituloApp": "The Franciscan Crown Rosary",
+
+  "rezarTerco": "Pray the Rosary",
+  "continuarOndeParei": "Resume where I left off",
+  "comecarDeNovo": "Start over",
+  "parouNasOracoes": "You paused during the prayers.",
+  "parouNaAlegria": "You paused at the {alegria}th Joy.",
+
+  "dialogRecomecarTitulo": "Start over?",
+  "dialogRecomecarConteudo": "Your saved progress will be cleared and you will return to the beginning.",
+  "cancelar": "Cancel",
+  "recomecar": "Start over",
+
+  "voltar": "Back",
+  "proxima": "Next",
+  "concluir": "Finish",
+  "tercoConcluidoMensagem": "Rosary completed. May God bless you! 🙏",
+  "erroCarregarOracoes": "Could not load prayers.\n{erro}",
+
+  "aveMariaContador": "Hail Mary {atual} of {total}",
+
+  "ouvir": "Listen",
+  "pausar": "Pause",
+  "avancoAutomatico": "Auto-advance",
+  "erroTocarAudio": "Could not play this audio.",
+  "velocidadeAudio": "Audio speed: {velocidade}",
+
+  "lembretes": "Reminders",
+  "backup": "Backup",
+  "tamanhoLetra": "Font size",
+  "temaDoApp": "App theme",
+  "temaClaro": "Light",
+  "temaEscuro": "Dark",
+  "temaSistema": "Automatic",
+  "vibracaoAtivada": "Haptic feedback enabled",
+  "vibracaoDesativada": "Haptic feedback disabled",
+
+  "tercosRezados": "Rosaries prayed",
+  "diasSeguidos": "Streak days",
+  "estaSemana": "This week",
+
+  "compartilhar": "Share",
+  "fechar": "Close",
+  "confirmar": "Confirm"
+}

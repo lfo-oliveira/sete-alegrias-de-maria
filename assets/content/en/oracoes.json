@@ -1,0 +1,59 @@
+{
+  "versao": 1,
+  "oracoes": [
+    {
+      "id": "sinal_da_cruz",
+      "titulo": "Sign of the Cross",
+      "texto": "In the name of the Father, and of the Son, and of the Holy Spirit. Amen.",
+      "audio": null
+    },
+    {
+      "id": "credo",
+      "titulo": "The Apostles' Creed",
+      "texto": "I believe in God, the Father Almighty, Creator of heaven and earth; and in Jesus Christ, His only Son, our Lord: Who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died, and was buried. He descended into hell; on the third day He rose again from the dead; He ascended into heaven, and is seated at the right hand of God the Father Almighty; from thence He shall come to judge the living and the dead. I believe in the Holy Spirit, the holy Catholic Church, the communion of Saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen.",
+      "audio": null
+    },
+    {
+      "id": "oferecimento",
+      "titulo": "Offering",
+      "texto": "O most merciful Virgin Mary, purify our lips and our hearts, that we may worthily recite your Crown of Joys. We offer it for your greater glory, the exaltation of Holy Mother Church, the honor of your Son Jesus, in thanksgiving for all the graces you have obtained for us, and for the relief of the Holy Souls in Purgatory. Amen.",
+      "audio": null
+    },
+    {
+      "id": "pai_nosso",
+      "titulo": "Our Father",
+      "texto": "Our Father, Who art in heaven, hallowed be Thy Name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen.",
+      "audio": null
+    },
+    {
+      "id": "ave_maria",
+      "titulo": "Hail Mary",
+      "texto": "Hail Mary, full of grace, the Lord is with thee; blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.",
+      "audio": null
+    },
+    {
+      "id": "gloria",
+      "titulo": "Glory Be",
+      "texto": "Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen.",
+      "audio": null
+    },
+    {
+      "id": "intencoes_papa",
+      "titulo": "For the Intentions of the Holy Father",
+      "texto": "Let us pray an Our Father, a Hail Mary, and a Glory Be for the intentions of our Holy Father, the Pope.",
+      "audio": null
+    },
+    {
+      "id": "salve_rainha",
+      "titulo": "Hail Holy Queen (Salve Regina)",
+      "texto": "Hail, Holy Queen, Mother of Mercy, our life, our sweetness, and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious advocate, thine eyes of mercy toward us, and after this our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us, O Holy Mother of God, that we may be made worthy of the promises of Christ. Amen.",
+      "audio": null
+    },
+    {
+      "id": "oracao_final",
+      "titulo": "Closing Prayer (Memorare)",
+      "texto": "Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thy intercession was left unaided. Inspired by this confidence, I fly unto thee, O Virgin of virgins, my Mother; to thee do I come, before thee I stand, sinful and sorrowful. O Mother of the Word Incarnate, despise not my petitions, but in thy mercy hear and answer me. Amen.",
+      "audio": null
+    }
+  ]
+}
