@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sete_alegrias_de_maria/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sete_alegrias_de_maria/data/models/passo.dart';
 import 'package:sete_alegrias_de_maria/data/repositories/conteudo_repository.dart';
@@ -40,10 +41,11 @@ class _TercoPageState extends ConsumerState<TercoPage> {
   @override
   Widget build(BuildContext context) {
     final conteudo = ref.watch(conteudoProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sete Alegrias de Nossa Senhora'),
+        title: Text(l10n?.tituloApp ?? 'Sete Alegrias de Nossa Senhora'),
         actions: const [
           BotaoVibracao(),
           BotaoTamanhoLetra(),
@@ -55,7 +57,10 @@ class _TercoPageState extends ConsumerState<TercoPage> {
         error: (erro, _) => Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
-            child: Text('Não foi possível carregar as orações.\n$erro'),
+            child: Text(
+              l10n?.erroCarregarOracoes(erro.toString()) ??
+                  'Não foi possível carregar as orações.\n$erro',
+            ),
           ),
         ),
         data: (dados) => _Corpo(conteudo: dados),
@@ -102,6 +107,7 @@ class _TercoPageState extends ConsumerState<TercoPage> {
   Widget build(BuildContext context, WidgetRef ref) {
     final estado = ref.watch(tercoControllerProvider);
     final controle = ref.read(tercoControllerProvider.notifier);
+    final l10n = AppLocalizations.of(context);
     double arrastoX = 0;
 
    // DEPOIS (ALTERAR PARA ESTE):
@@ -198,7 +204,7 @@ class _TercoPageState extends ConsumerState<TercoPage> {
                         onPressed: estado.ehPrimeiro
                             ? null
                             : () => _voltarComFeedback(estado, controle, ref),
-                        child: const Text('Voltar'),
+                        child: Text(l10n?.voltar ?? 'Voltar'),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -221,16 +227,21 @@ class _TercoPageState extends ConsumerState<TercoPage> {
                                 if (context.mounted) {
                                   Navigator.of(context).pop();
                                   mensagens.showSnackBar(
-                                    const SnackBar(
+                                    SnackBar(
                                       content: Text(
-                                        'Terço concluído. Deus te abençoe! 🙏',
+                                        l10n?.tercoConcluidoMensagem ??
+                                            'Terço concluído. Deus te abençoe! 🙏',
                                       ),
                                     ),
                                   );
                                 }
                               }
                             : () => _avancarComFeedback(estado, controle, ref),
-                        child: Text(estado.ehUltimo ? 'Concluir' : 'Próxima'),
+                        child: Text(
+                          estado.ehUltimo
+                              ? (l10n?.concluir ?? 'Concluir')
+                              : (l10n?.proxima ?? 'Próxima'),
+                        ),
                       ),
                     ),
                   ],

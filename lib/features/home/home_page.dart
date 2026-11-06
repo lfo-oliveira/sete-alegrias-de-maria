@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sete_alegrias_de_maria/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sete_alegrias_de_maria/features/backup/presentation/backup_page.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_tamanho_letra.dart';
@@ -15,19 +16,20 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tema = Theme.of(context).textTheme;
     final terco = ref.watch(tercoControllerProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
-            tooltip: 'Lembretes',
+            tooltip: l10n?.lembretes ?? 'Lembretes',
             icon: const Icon(Icons.notifications_outlined),
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute<void>(builder: (_) => const LembretesPage()),
             ),
           ),
           IconButton(
-            tooltip: 'Backup',
+            tooltip: l10n?.backup ?? 'Backup',
             icon: const Icon(Icons.save_alt),
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute<void>(builder: (_) => const BackupPage()),
@@ -46,37 +48,37 @@ class HomePage extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Sete Alegrias de Nossa Senhora',
+                  l10n?.tituloApp ?? 'Sete Alegrias de Nossa Senhora',
                   style: tema.headlineLarge,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Terço da Coroa Franciscana',
+                  l10n?.subtituloApp ?? 'Terço da Coroa Franciscana',
                   style: tema.titleMedium,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 40),
                 if (terco.emAndamento) ...[
                   Text(
-                    _descreverOndeParou(terco),
+                    _descreverOndeParou(terco, context),
                     style: tema.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
                   FilledButton(
                     onPressed: () => _abrirTerco(context),
-                    child: const _TextoBotao('Continuar de onde parei'),
+                    child: _TextoBotao(l10n?.continuarOndeParei ?? 'Continuar de onde parei'),
                   ),
                   const SizedBox(height: 12),
                   OutlinedButton(
                     onPressed: () => _confirmarERecomencar(context, ref),
-                    child: const _TextoBotao('Começar de novo'),
+                    child: _TextoBotao(l10n?.comecarDeNovo ?? 'Começar de novo'),
                   ),
                 ] else
                   FilledButton(
                     onPressed: () => _abrirTerco(context),
-                    child: const _TextoBotao('Rezar o terço'),
+                    child: _TextoBotao(l10n?.rezarTerco ?? 'Rezar o terço'),
                   ),
                 const SizedBox(height: 32),
                 const CartaoHistorico(),
@@ -93,22 +95,25 @@ class HomePage extends ConsumerWidget {
       MaterialPageRoute<void>(builder: (_) => const TercoPage()),
     );
   }
-Future<void> _confirmarERecomencar(BuildContext context, WidgetRef ref) async {
+
+  Future<void> _confirmarERecomencar(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context);
     final confirmar = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Começar de novo?'),
-        content: const Text(
-          'O progresso salvo até aqui será apagado e você voltará ao início.',
+        title: Text(l10n?.dialogRecomecarTitulo ?? 'Recomeçar o terço?'),
+        content: Text(
+          l10n?.dialogRecomecarConteudo ??
+              'O progresso salvo até aqui será apagado e você voltará ao início.',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancelar'),
+            child: Text(l10n?.cancelar ?? 'Cancelar'),
           ),
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Começar de novo'),
+            child: Text(l10n?.recomecar ?? 'Recomeçar'),
           ),
         ],
       ),
@@ -119,13 +124,12 @@ Future<void> _confirmarERecomencar(BuildContext context, WidgetRef ref) async {
       _abrirTerco(context);
     }
   }
-  /// Pergunta antes de apagar o "onde parei": um toque sem querer não
-  /// pode fazer o fiel perder o lugar no terço.
 
-  String _descreverOndeParou(TercoState terco) {
+  String _descreverOndeParou(TercoState terco, BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final alegria = terco.passoAtual.alegriaId;
-    if (alegria == null) return 'Você parou nas orações.';
-    return 'Você parou na $alegriaª alegria.';
+    if (alegria == null) return l10n?.parouNasOracoes ?? 'Você parou nas orações.';
+    return l10n?.parouNaAlegria(alegria) ?? 'Você parou na $alegriaª alegria.';
   }
 }
 
