@@ -39,5 +39,6 @@ flutter:
   generate: true
   assets:
     - assets/content/pt/
+    - assets/content/es/
     - assets/audio/oracoes/
     - assets/audio/leituras/
