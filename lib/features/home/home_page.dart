@@ -97,7 +97,7 @@ Future<void> _confirmarERecomencar(BuildContext context, WidgetRef ref) async {
     final confirmar = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Recomeçar o terço?'),
+        title: const Text('Começar de novo?'),
         content: const Text(
           'O progresso salvo até aqui será apagado e você voltará ao início.',
         ),
@@ -108,7 +108,7 @@ Future<void> _confirmarERecomencar(BuildContext context, WidgetRef ref) async {
           ),
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Recomeçar'),
+            child: const Text('Começar de novo'),
           ),
         ],
       ),

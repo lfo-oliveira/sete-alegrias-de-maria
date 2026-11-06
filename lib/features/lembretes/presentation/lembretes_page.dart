@@ -39,7 +39,7 @@ class LembretesPage extends ConsumerWidget {
                       TextButton(
                         onPressed: () => executarLembrete(
                           context,
-                          () => controle.sincronizar(pedirPermissao: true),
+                          () => controle.sincronizar(pedirNovamente: true),
                         ),
                         child: const Text('Permitir notificações'),
                       ),

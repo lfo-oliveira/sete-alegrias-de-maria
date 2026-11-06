@@ -104,9 +104,33 @@ class _TercoPageState extends ConsumerState<TercoPage> {
     final controle = ref.read(tercoControllerProvider.notifier);
     double arrastoX = 0;
 
+   // DEPOIS (ALTERAR PARA ESTE):
+    final percentual = (estado.progresso * 100).toInt();
+
     return Column(
       children: [
         LinearProgressIndicator(value: estado.progresso),
+        // Linha sutil de progresso e etapa:
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                estado.etapaAtual,
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+              ),
+              Text(
+                '$percentual%',
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+              ),
+            ],
+          ),
+        ),
         FaixaDaAlegria(passo: estado.passoAtual, conteudo: conteudo),
         Expanded(
           child: GestureDetector(

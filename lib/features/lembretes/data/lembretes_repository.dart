@@ -14,8 +14,8 @@ class LembretesRepository {
   final SharedPreferences _prefs;
 
   static const chavePersonalizados = 'lembretes.terco';
+  // static const _chavePermissaoPedida = 'lembretes.permissao_pedida';
   static const _chavePermissaoPedida = 'lembretes.permissao_pedida';
-
   static String _chave(int id) => 'lembretes.ativo.$id';
 
   /// Lembretes fixos vêm ligados por padrão.
@@ -94,7 +94,12 @@ class LembretesRepository {
       ativo: ativo,
     );
   }
+  bool lerPermissaoPedida() => _prefs.getBool(_chavePermissaoPedida) ?? false;
+
+  Future<void> salvarPermissaoPedida(bool valor) =>
+      _prefs.setBool(_chavePermissaoPedida, valor);
 }
+
 
 final lembretesRepositoryProvider = Provider<LembretesRepository>(
   (ref) => LembretesRepository(ref.watch(sharedPreferencesProvider)),
