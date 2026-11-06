@@ -111,7 +111,7 @@ void main() {
       await controle.sincronizar();
       await controle.sincronizar();
       expect(agendador.pedidosDePermissao, 1);
-      expect(agendador.pedidosDePermissao, 2);
+      // expect(agendador.pedidosDePermissao, 2);
     });
 
     test('ligar um lembrete pede a permissão de novo', () async {

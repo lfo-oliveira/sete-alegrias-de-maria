@@ -6,7 +6,7 @@ import 'package:sete_alegrias_de_maria/features/historico/presentation/cartao_hi
 import 'package:sete_alegrias_de_maria/features/lembretes/presentation/lembretes_page.dart';
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
 import 'package:sete_alegrias_de_maria/features/terco/presentation/terco_page.dart';
-
+import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_modo_tema.dart';
 /// Tela inicial.
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -33,6 +33,7 @@ class HomePage extends ConsumerWidget {
               MaterialPageRoute<void>(builder: (_) => const BackupPage()),
             ),
           ),
+          const BotaoModoTema(),
           const BotaoTamanhoLetra(),
         ],
       ),
@@ -96,7 +97,7 @@ Future<void> _confirmarERecomencar(BuildContext context, WidgetRef ref) async {
     final confirmar = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Recomeçar o terço?'),
+        title: const Text('Começar de novo?'),
         content: const Text(
           'O progresso salvo até aqui será apagado e você voltará ao início.',
         ),
@@ -107,7 +108,7 @@ Future<void> _confirmarERecomencar(BuildContext context, WidgetRef ref) async {
           ),
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Recomeçar'),
+            child: const Text('Começar de novo'),
           ),
         ],
       ),

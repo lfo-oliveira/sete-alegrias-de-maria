@@ -19,6 +19,8 @@ abstract class PlayerAudio {
 
   Future<void> parar();
 
+  Future<void> definirVelocidade(double velocidade);
+
   Future<void> liberar();
 }
 
@@ -55,6 +57,9 @@ class PlayerAudioReal implements PlayerAudio {
 
   @override
   Future<void> parar() => _player.stop();
+
+  @override
+  Future<void> definirVelocidade(double velocidade) => _player.setSpeed(velocidade);
 
   @override
   Future<void> liberar() => _player.dispose();

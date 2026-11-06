@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sete_alegrias_de_maria/core/theme/app_theme.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/application/modo_tema_controller.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/application/tamanho_letra_controller.dart';
 import 'package:sete_alegrias_de_maria/features/home/home_page.dart';
 import 'package:sete_alegrias_de_maria/features/lembretes/presentation/lembretes_inicializador.dart';
@@ -15,13 +16,15 @@ class SeteAlegriasApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fator = ref.watch(tamanhoLetraProvider).fator;
+    final modoTema = ref.watch(modoTemaProvider); // <-- 2. Adicione esta linha aqui
 
     return MaterialApp(
       title: 'Sete Alegrias de Nossa Senhora',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.claro,
       darkTheme: AppTheme.escuro,
-      themeMode: ThemeMode.system,
+      // darkTheme: AppTheme.escuro,
+      themeMode: modoTema,
       // Textos prontos do Flutter (seletor de hora, "Cancelar", leitores de
       // tela) em português, qualquer que seja o idioma do celular.
       locale: const Locale('pt', 'BR'),

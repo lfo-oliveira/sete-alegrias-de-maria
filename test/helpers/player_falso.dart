@@ -11,6 +11,7 @@ class PlayerFalso implements PlayerAudio {
   int retomadas = 0;
   int paradas = 0;
   bool falharAoCarregar = false;
+  double velocidadeAtual = 1.0;
 
   @override
   Stream<void> get fim => _fim.stream;
@@ -34,5 +35,11 @@ class PlayerFalso implements PlayerAudio {
   Future<void> parar() async => paradas++;
 
   @override
+  Future<void> definirVelocidade(double velocidade) async {
+    velocidadeAtual = velocidade;
+  }
+
+  @override
   Future<void> liberar() async {}
+
 }

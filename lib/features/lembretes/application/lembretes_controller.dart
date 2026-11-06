@@ -53,7 +53,7 @@ class LembretesController extends Notifier<LembretesState> {
   }
 
   /// Liga ou desliga um lembrete (fixo ou criado pelo fiel).
-  Future<void> alternar(int id, bool ativo) async {
+ Future<void> alternar(int id, bool ativo) async {
     final personalizado = state.personalizados.any((l) => l.id == id);
     if (personalizado) {
       await _guardarPersonalizados([
@@ -69,8 +69,8 @@ class LembretesController extends Notifier<LembretesState> {
         ],
       );
     }
-    // Ligar é um gesto do fiel: aí vale perguntar de novo pela permissão.
-    await sincronizar(pedirPermissao: ativo);
+    // SÓ pede permissão novamente se estiver LIGANDO o lembrete:
+    await sincronizar(pedirNovamente: ativo);
   }
 
   /// Cria um lembrete do terço no horário e nos dias escolhidos.
@@ -90,7 +90,7 @@ class LembretesController extends Notifier<LembretesState> {
       dias: dias,
     );
     await _guardarPersonalizados([...state.personalizados, novo]);
-    await sincronizar(pedirPermissao: true);
+    await sincronizar(pedirNovamente: true);
   }
 
   /// Muda horário e dias de um lembrete criado pelo fiel.
@@ -112,7 +112,7 @@ class LembretesController extends Notifier<LembretesState> {
               )
             : l,
     ]);
-    await sincronizar(pedirPermissao: true);
+    await sincronizar(pedirNovamente: true);
   }
 
   Future<void> remover(int id) async {
@@ -134,7 +134,7 @@ class LembretesController extends Notifier<LembretesState> {
   /// A permissão só é PEDIDA na primeira vez ou quando [pedirPermissao] é
   /// true (o fiel ligou ou criou um lembrete). Nas outras vezes (ex.: ao
   /// voltar para o app) só é conferida, para não insistir com quem negou.
-  Future<void> sincronizar({bool pedirPermissao = false}) async {
+ Future<void> sincronizar({bool pedirNovamente = false}) async {
     final temAtivo = state.todos.any((l) => l.ativo);
 
     if (!temAtivo) {
@@ -142,15 +142,18 @@ class LembretesController extends Notifier<LembretesState> {
       return;
     }
 
+    final jaPediu = _repo.lerPermissaoPedida();
     final bool permitido;
-    if (pedirPermissao || !_repo.permissaoJaPedida()) {
-      // Marca antes: o próprio diálogo de permissão faz o app "voltar" e
-      // sincronizar de novo, e isso não pode virar um segundo pedido.
-      await _repo.marcarPermissaoPedida();
+
+    // Se nunca pediu, ou se o usuário acabou de ativar um lembrete:
+    if (!jaPediu || pedirNovamente) {
       permitido = await _agendador.pedirPermissao();
+      await _repo.salvarPermissaoPedida(true);
     } else {
-      permitido = await _agendador.pedirPermissao();
+      // Ao voltar para o app ou ao desligar um lembrete, não pede de novo:
+      permitido = !state.permissaoNegada;
     }
+
     state = state.copyWith(permissaoNegada: !permitido);
 
     final agora = ref.read(relogioProvider)();

@@ -7,19 +7,48 @@ import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
 import 'package:sete_alegrias_de_maria/features/terco/presentation/faixa_da_alegria.dart';
 import 'package:flutter/services.dart';
+import 'package:wakelock_plus/wakelock_plus.dart'; 
+import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_modo_tema.dart';
+import 'package:sete_alegrias_de_maria/features/terco/presentation/indicador_contas.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_vibracao.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/application/vibracao_controller.dart';
+import 'package:share_plus/share_plus.dart'; 
+import 'package:sete_alegrias_de_maria/data/models/alegria.dart';
+
 
 /// Tela de oração: mostra o passo atual e os botões Voltar / Próxima.
-class TercoPage extends ConsumerWidget {
+class TercoPage extends ConsumerStatefulWidget {
   const TercoPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TercoPage> createState() => _TercoPageState();
+}
+
+class _TercoPageState extends ConsumerState<TercoPage> {
+  @override
+  void initState() {
+    super.initState();
+    WakelockPlus.enable(); // Mantém a tela acesa durante toda a oração
+  }
+
+  @override
+  void dispose() {
+    WakelockPlus.disable(); // Libera o desligamento normal de tela ao sair
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final conteudo = ref.watch(conteudoProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sete Alegrias de Nossa Senhora'),
-        actions: const [BotaoTamanhoLetra()],
+        actions: const [
+          BotaoVibracao(),
+          BotaoTamanhoLetra(),
+          BotaoModoTema(),
+        ],
       ),
       body: conteudo.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -35,41 +64,74 @@ class TercoPage extends ConsumerWidget {
   }
 }
 
-class _Corpo extends ConsumerWidget {
+  class _Corpo extends ConsumerWidget {
   const _Corpo({required this.conteudo});
 
   final Conteudo conteudo;
-// Vibração inteligente ao avançar:
-  void _avancarComFeedback(TercoState estado, TercoController controle) {
+
+  void _avancarComFeedback(
+    TercoState estado,
+    TercoController controle,
+    WidgetRef ref,
+  ) {
     if (estado.ehUltimo) return;
-    final passo = estado.passoAtual;
-    // Se acabou de rezar a 10ª Ave-Maria da dezena (10 de 10):
-    if (passo.tipo == TipoPasso.aveMaria && passo.contador == passo.total) {
-      HapticFeedback.mediumImpact(); // Vibração dupla/firme: fim da dezena
-    } else {
-      HapticFeedback.lightImpact(); // Vibração suave de conta de terço
+    if (ref.read(vibracaoProvider)) {
+      final passo = estado.passoAtual;
+      if (passo.tipo == TipoPasso.aveMaria && passo.contador == passo.total) {
+        HapticFeedback.mediumImpact();
+      } else {
+        HapticFeedback.lightImpact();
+      }
     }
     controle.avancar();
   }
 
-  // Vibração ao voltar:
-  void _voltarComFeedback(TercoState estado, TercoController controle) {
+  void _voltarComFeedback(
+    TercoState estado,
+    TercoController controle,
+    WidgetRef ref,
+  ) {
     if (estado.ehPrimeiro) return;
-    HapticFeedback.selectionClick();
+    if (ref.read(vibracaoProvider)) {
+      HapticFeedback.selectionClick();
+    }
     controle.voltar();
   }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final estado = ref.watch(tercoControllerProvider);
     final controle = ref.read(tercoControllerProvider.notifier);
     double arrastoX = 0;
 
+   // DEPOIS (ALTERAR PARA ESTE):
+    final percentual = (estado.progresso * 100).toInt();
+
     return Column(
       children: [
         LinearProgressIndicator(value: estado.progresso),
+        // Linha sutil de progresso e etapa:
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                estado.etapaAtual,
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+              ),
+              Text(
+                '$percentual%',
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+              ),
+            ],
+          ),
+        ),
         FaixaDaAlegria(passo: estado.passoAtual, conteudo: conteudo),
-        
-        // 1. Área central de leitura da oração com detector de gestos (Swipe):
         Expanded(
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -79,29 +141,49 @@ class _Corpo extends ConsumerWidget {
               final velocidade = detalhes.primaryVelocity ?? 0;
               final paraDireita = arrastoX > 40 || velocidade > 120;
               final paraEsquerda = arrastoX < -40 || velocidade < -120;
+
               if (paraDireita) {
-                _avancarComFeedback(estado, controle);
+                _avancarComFeedback(estado, controle, ref);
               } else if (paraEsquerda) {
-                _voltarComFeedback(estado, controle);
-              }
-              if (paraDireita) {
-                // Deslizar para a direita (→) avança para a próxima
-                if (!estado.ehUltimo) controle.avancar();
-              } else if (paraEsquerda) {
-                // Deslizar para a esquerda (←) volta para a anterior
-                if (!estado.ehPrimeiro) controle.voltar();
+                _voltarComFeedback(estado, controle, ref);
               }
               arrastoX = 0;
             },
-            child: SingleChildScrollView(
-              key: ValueKey(estado.indice),
-              padding: const EdgeInsets.all(24),
-              child: _ConteudoDoPasso(passo: estado.passoAtual, conteudo: conteudo),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 280),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              transitionBuilder: (child, animation) {
+                final deslize = Tween<Offset>(
+                  begin: const Offset(-0.25, 0.0),
+                  end: Offset.zero,
+                ).animate(animation);
+                return SlideTransition(
+                  position: deslize,
+                  child: FadeTransition(opacity: animation, child: child),
+                );
+              },
+              layoutBuilder: (currentChild, previousChildren) => Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  ...previousChildren,
+                  if (currentChild != null) currentChild,
+                ],
+              ),
+              child: SingleChildScrollView(
+                key: ValueKey(estado.indice),
+                padding: const EdgeInsets.all(24),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: _ConteudoDoPasso(
+                    passo: estado.passoAtual,
+                    conteudo: conteudo,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
-
-        // 2. Barra inferior com áudio e botões Voltar / Próxima:
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
@@ -113,7 +195,9 @@ class _Corpo extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: estado.ehPrimeiro ? null : controle.voltar,
+                        onPressed: estado.ehPrimeiro
+                            ? null
+                            : () => _voltarComFeedback(estado, controle, ref),
                         child: const Text('Voltar'),
                       ),
                     ),
@@ -122,19 +206,30 @@ class _Corpo extends ConsumerWidget {
                       flex: 2,
                       child: FilledButton(
                         onPressed: estado.ehUltimo
-                            ? () {
+                            ? () async {
                                 final mensagens = ScaffoldMessenger.of(context);
+
+                                if (ref.read(vibracaoProvider)) {
+                                  await HapticFeedback.heavyImpact();
+                                  await Future<void>.delayed(
+                                    const Duration(milliseconds: 120),
+                                  );
+                                  await HapticFeedback.heavyImpact();
+                                }
+
                                 controle.concluir();
-                                Navigator.of(context).pop();
-                                mensagens.showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Terço concluído. Deus te abençoe! 🙏',
+                                if (context.mounted) {
+                                  Navigator.of(context).pop();
+                                  mensagens.showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Terço concluído. Deus te abençoe! 🙏',
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                }
                               }
-                            : controle.avancar,
+                            : () => _avancarComFeedback(estado, controle, ref),
                         child: Text(estado.ehUltimo ? 'Concluir' : 'Próxima'),
                       ),
                     ),
@@ -150,11 +245,39 @@ class _Corpo extends ConsumerWidget {
 }
 
 /// Decide o que desenhar conforme o tipo do passo.
+/// Decide o que desenhar conforme o tipo do passo.
 class _ConteudoDoPasso extends StatelessWidget {
   const _ConteudoDoPasso({required this.passo, required this.conteudo});
 
   final Passo passo;
   final Conteudo conteudo;
+
+  void _compartilharAlegria(BuildContext context, Alegria alegria) {
+    final box = context.findRenderObject() as RenderBox?;
+    final origem = box != null ? box.localToGlobal(Offset.zero) & box.size : null;
+
+    final texto = [
+      '🕊️ Sete Alegrias de Nossa Senhora (Coroa Franciscana)',
+      '',
+      '${alegria.id}ª Alegria: ${alegria.titulo} (${alegria.referencia})',
+      '',
+      if (alegria.trechoBiblico.isNotEmpty) ...[
+        '"${alegria.trechoBiblico.trim()}"',
+        '',
+      ],
+      'Meditação: ${alegria.reflexao.trim()}',
+      '',
+      'Reze conosco a Coroa Franciscana no app Sete Alegrias de Maria! 🙏',
+    ].join('\n');
+
+    SharePlus.instance.share(
+      ShareParams(
+        text: texto,
+        subject: '${alegria.id}ª Alegria de Maria: ${alegria.titulo}',
+        sharePositionOrigin: origem,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +292,18 @@ class _ConteudoDoPasso extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${alegria.id}ª Alegria', style: tema.titleMedium),
+            Row(
+              children: [
+                Expanded(
+                  child: Text('${alegria.id}ª Alegria', style: tema.titleMedium),
+                ),
+                IconButton(
+                  tooltip: 'Compartilhar meditação',
+                  icon: const Icon(Icons.share_outlined),
+                  onPressed: () => _compartilharAlegria(context, alegria),
+                ),
+              ],
+            ),
             const SizedBox(height: 4),
             Text(alegria.titulo, style: tema.headlineMedium),
             const SizedBox(height: 4),
@@ -183,6 +317,7 @@ class _ConteudoDoPasso extends StatelessWidget {
           ],
         );
 
+      // <-- OS DOIS CASES DEVEM ESTAR PRESENTES AQUI:
       case TipoPasso.oracao:
       case TipoPasso.aveMaria:
         final oracao = conteudo.oracoes[passo.oracaoId];
@@ -193,10 +328,10 @@ class _ConteudoDoPasso extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (ehAveMaria)
-              Text(
-                '${passo.contador} de ${passo.total}',
-                style: tema.displaySmall,
+            if (ehAveMaria && passo.contador != null && passo.total != null)
+              IndicadorContas(
+                atual: passo.contador!,
+                total: passo.total!,
               ),
             Text(oracao.titulo, style: tema.headlineMedium),
             const SizedBox(height: 20),

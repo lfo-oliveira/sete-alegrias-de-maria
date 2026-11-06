@@ -25,6 +25,21 @@ class TercoState {
 
   TercoState copyWith({int? indice}) =>
       TercoState(passos: passos, indice: indice ?? this.indice);
+
+  // <-- ADICIONAR ESTE MÉTODO ABAIXO:
+  String get etapaAtual {
+    final passo = passoAtual;
+    if (passo.alegriaId != null) {
+      return '${passo.alegriaId}ª Alegria (de 7)';
+    }
+    if (indice < 3) {
+      return 'Orações iniciais';
+    }
+    if (ehUltimo || indice >= passos.length - 2) {
+      return 'Orações finais';
+    }
+    return 'Ave-Marias finais';
+  }
 }
 
 /// Controla a navegação pelos passos do terço e guarda "onde parei".

@@ -42,14 +42,28 @@ class FaixaDaAlegria extends StatelessWidget {
         width: double.infinity,
         color: cores.secondaryContainer,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-        child: Text(
-          texto,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: cores.onSecondaryContainer,
-                fontWeight: FontWeight.w600,
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                texto,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: cores.onSecondaryContainer,
+                      fontWeight: FontWeight.w600,
+                    ),
               ),
+            ),
+            if (passo.alegriaId != null)
+              Text(
+                '${passo.alegriaId} de 7', // <-- Indicador sutil da alegria atual
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: cores.onSecondaryContainer.withValues(alpha: 0.8),
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+          ],
         ),
       ),
     );
-  }
+}
 }
