@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,24 +19,40 @@ Future<ProviderContainer> _criar(Map<String, Object> valoresSalvos) async {
 
 void main() {
   group('IdiomaController', () {
-    test('sem nada salvo, usa o idioma padrão "pt"', () async {
+    test('sem nada salvo, retorna nulo (padrão automático do sistema)', () async {
       final container = await _criar({});
-      expect(container.read(idiomaProvider), 'pt');
+      expect(container.read(idiomaControllerProvider), isNull);
     });
 
-    test('restaura o idioma salvo no SharedPreferences', () async {
+    test('restaura o idioma forçado salvo no SharedPreferences', () async {
       final container = await _criar({_chave: 'es'});
-      expect(container.read(idiomaProvider), 'es');
+      expect(container.read(idiomaControllerProvider), const Locale('es'));
+      expect(container.read(codigoIdiomaProvider), 'es');
     });
 
     test('definirIdioma altera o estado e persiste nas preferências', () async {
       final container = await _criar({});
       final prefs = container.read(sharedPreferencesProvider);
 
-      await container.read(idiomaProvider.notifier).definirIdioma('es');
+      await container
+          .read(idiomaControllerProvider.notifier)
+          .definirIdioma(const Locale('es'));
 
-      expect(container.read(idiomaProvider), 'es');
+      expect(container.read(idiomaControllerProvider), const Locale('es'));
       expect(prefs.getString(_chave), 'es');
+      expect(container.read(codigoIdiomaProvider), 'es');
+    });
+
+    test('definirIdioma com null remove a preferência e volta para o padrão', () async {
+      final container = await _criar({_chave: 'es'});
+      final prefs = container.read(sharedPreferencesProvider);
+
+      await container
+          .read(idiomaControllerProvider.notifier)
+          .definirIdioma(null);
+
+      expect(container.read(idiomaControllerProvider), isNull);
+      expect(prefs.getString(_chave), isNull);
     });
   });
 }

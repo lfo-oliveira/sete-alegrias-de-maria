@@ -7,6 +7,7 @@ import 'package:sete_alegrias_de_maria/features/historico/presentation/cartao_hi
 import 'package:sete_alegrias_de_maria/features/lembretes/presentation/lembretes_page.dart';
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
 import 'package:sete_alegrias_de_maria/features/terco/presentation/terco_page.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_idioma.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/presentation/botao_modo_tema.dart';
 /// Tela inicial.
 class HomePage extends ConsumerWidget {
@@ -35,6 +36,7 @@ class HomePage extends ConsumerWidget {
               MaterialPageRoute<void>(builder: (_) => const BackupPage()),
             ),
           ),
+          const BotaoIdioma(),
           const BotaoModoTema(),
           const BotaoTamanhoLetra(),
         ],

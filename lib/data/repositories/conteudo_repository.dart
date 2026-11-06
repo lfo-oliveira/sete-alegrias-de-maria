@@ -63,6 +63,6 @@ final conteudoRepositoryProvider = Provider<ConteudoRepository>(
 
 /// Carrega o conteúdo conforme o idioma selecionado e guarda em memória.
 final conteudoProvider = FutureProvider<Conteudo>((ref) {
-  final idioma = ref.watch(idiomaProvider);
-  return ref.watch(conteudoRepositoryProvider).carregar(idioma);
+  final codigoIdioma = ref.watch(codigoIdiomaProvider);
+  return ref.watch(conteudoRepositoryProvider).carregar(codigoIdioma);
 });

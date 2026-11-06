@@ -23,6 +23,7 @@ const _dadosCompletos = <String, Object>{
   'historico.ultimo_dia': '2026-10-17',
   'historico.dias_rezados': ['2026-10-15', '2026-10-16', '2026-10-17'],
   'config.tamanho_letra': 'grande',
+  'config.idioma': 'es',
   'lembretes.ativo.1': true,
   'lembretes.ativo.2': false,
 };
@@ -51,6 +52,7 @@ void main() {
       expect(prefsDestino.getStringList('historico.dias_rezados'),
           ['2026-10-15', '2026-10-16', '2026-10-17']);
       expect(prefsDestino.getString('config.tamanho_letra'), 'grande');
+      expect(prefsDestino.getString('config.idioma'), 'es');
       expect(prefsDestino.getBool('lembretes.ativo.2'), false);
     });
 

@@ -50,10 +50,15 @@ class ConfiguracoesRepository {
   Future<void> salvarVibracao(bool valor) =>
       _prefs.setBool(_chaveVibracao, valor);
 
-  /// Idioma selecionado para orações e interface (padrão: "pt").
-  String lerIdioma() => _prefs.getString(_chaveIdioma) ?? 'pt';
-  Future<void> salvarIdioma(String idioma) =>
-      _prefs.setString(_chaveIdioma, idioma);
+  /// Idioma selecionado para orações e interface (null = padrão do sistema).
+  String? lerIdioma() => _prefs.getString(_chaveIdioma);
+  Future<void> salvarIdioma(String? idioma) async {
+    if (idioma == null) {
+      await _prefs.remove(_chaveIdioma);
+    } else {
+      await _prefs.setString(_chaveIdioma, idioma);
+    }
+  }
 }
 
 final configuracoesRepositoryProvider = Provider<ConfiguracoesRepository>(
