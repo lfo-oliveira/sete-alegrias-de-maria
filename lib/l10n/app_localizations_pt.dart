@@ -76,6 +76,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get avancoAutomatico => 'Avanço automático';
 
   @override
+  String get audioDisponivel => 'Áudio disponível';
+
+  @override
   String get erroTocarAudio => 'Não foi possível tocar este áudio.';
 
   @override

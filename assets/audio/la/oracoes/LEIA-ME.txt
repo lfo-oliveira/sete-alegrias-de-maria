@@ -1,0 +1,9 @@
+Hic MP3 soni orationum in lingua Latina ponendi sunt, nomine cum orationis id congruenti:
+
+  sinal_da_cruz.mp3   credo.mp3        oferecimento.mp3
+  pai_nosso.mp3       ave_maria.mp3    gloria.mp3
+  salve_rainha.mp3    oracao_final.mp3 intencoes_papa.mp3
+
+Applikatio sponte detegit fasciculos existentes. Orationes sine fasciculo sonoro
+sine bulla "Audire" apparebunt.
+Post fasciculos additos, "flutter run" iterum agatur.

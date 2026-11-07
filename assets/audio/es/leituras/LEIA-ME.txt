@@ -1,0 +1,8 @@
+Coloque aquí los MP3 de las lecturas de las alegrías en Español:
+
+  alegria_1.mp3   alegria_2.mp3   alegria_3.mp3   alegria_4.mp3
+  alegria_5.mp3   alegria_6.mp3   alegria_7.mp3
+
+La app descubre automáticamente qué archivos existen. La alegría sin archivo
+aparece sin el botón "Ouvir / Escuchar".
+Después de agregar archivos, ejecute "flutter run" de nuevo.

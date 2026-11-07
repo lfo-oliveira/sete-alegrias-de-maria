@@ -25,6 +25,7 @@
   "ouvir": "Escuchar",
   "pausar": "Pausar",
   "avancoAutomatico": "Avance automático",
+  "audioDisponivel": "Audio disponible",
   "erroTocarAudio": "No fue posible reproducir este audio.",
   "velocidadeAudio": "Velocidad de reproducción: {velocidade}",
 

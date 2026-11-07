@@ -43,5 +43,13 @@ flutter:
     - assets/content/en/
     - assets/content/la/
     - assets/content/it/
-    - assets/audio/oracoes/
-    - assets/audio/leituras/
+    - assets/audio/pt/oracoes/
+    - assets/audio/pt/leituras/
+    - assets/audio/es/oracoes/
+    - assets/audio/es/leituras/
+    - assets/audio/en/oracoes/
+    - assets/audio/en/leituras/
+    - assets/audio/it/oracoes/
+    - assets/audio/it/leituras/
+    - assets/audio/la/oracoes/
+    - assets/audio/la/leituras/
