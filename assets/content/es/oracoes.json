@@ -1,0 +1,59 @@
+{
+  "versao": 1,
+  "oracoes": [
+    {
+      "id": "sinal_da_cruz",
+      "titulo": "Señal de la Cruz",
+      "texto": "En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén.",
+      "audio": null
+    },
+    {
+      "id": "credo",
+      "titulo": "Credo",
+      "texto": "Creo en Dios, Padre todopoderoso, Creador del cielo y de la tierra. Creo en Jesucristo, su único Hijo, nuestro Señor, que fue concebido por obra y gracia del Espíritu Santo, nació de Santa María Virgen, padeció bajo el poder de Poncio Pilato, fue crucificado, muerto y sepultado, descendió a los infiernos, al tercer día resucitó de entre los muertos, subió a los cielos y está sentado a la derecha de Dios, Padre todopoderoso. Desde allí ha de venir a juzgar a vivos y muertos. Creo en el Espíritu Santo, la santa Iglesia católica, la comunión de los santos, el perdón de los pecados, la resurrección de la carne y la vida eterna. Amén.",
+      "audio": null
+    },
+    {
+      "id": "oferecimento",
+      "titulo": "Ofrecimiento",
+      "texto": "Oh piadosísima Virgen María, purifica nuestros labios y nuestros corazones para que podamos, dignamente, recitar tu Corona de Alegrías. Te la ofrecemos para tu mayor gloria, exaltación de la Santa Iglesia, honor de tu Hijo Jesús, en acción de gracias por todos los beneficios que nos has alcanzado y en sufragio de las benditas almas del purgatorio. Amén.",
+      "audio": null
+    },
+    {
+      "id": "pai_nosso",
+      "titulo": "Padre Nuestro",
+      "texto": "Padre nuestro que estás en el cielo, santificado sea tu Nombre; venga a nosotros tu Reino; hágase tu voluntad en la tierra como en el cielo. Danos hoy nuestro pan de cada día; perdona nuestras ofensas, como también nosotros perdonamos a los que nos ofenden; no nos dejes caer en la tentación, y líbranos del mal. Amén.",
+      "audio": null
+    },
+    {
+      "id": "ave_maria",
+      "titulo": "Avemaría",
+      "texto": "Dios te salve, María, llena eres de gracia; el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús. Santa María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén.",
+      "audio": null
+    },
+    {
+      "id": "gloria",
+      "titulo": "Gloria al Padre",
+      "texto": "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén.",
+      "audio": null
+    },
+    {
+      "id": "intencoes_papa",
+      "titulo": "Por las intenciones del Papa",
+      "texto": "Recemos ahora un Padre Nuestro, un Avemaría y un Gloria al Padre por las intenciones del Santo Padre, el Papa.",
+      "audio": null
+    },
+    {
+      "id": "salve_rainha",
+      "titulo": "La Salve",
+      "texto": "Dios te salve, Reina y Madre de misericordia, vida, dulzura y esperanza nuestra; Dios te salve. A ti clamamos los desterrados hijos de Eva; a ti suspiramos, gimiendo y llorando, en este valle de lágrimas. ¡Ea, pues, Señora, abogada nuestra!, vuelve a nosotros esos tus ojos misericordiosos; y después de este destierro muéstranos a Jesús, fruto bendito de tu vientre. ¡Oh clementísima, oh piadosa, oh dulce siempre Virgen María! Ruega por nosotros, Santa Madre de Dios, para que seamos dignos de alcanzar las promesas de nuestro Señor Jesucristo. Amén.",
+      "audio": null
+    },
+    {
+      "id": "oracao_final",
+      "titulo": "Oración Final (Acordaos)",
+      "texto": "Acordaos, ¡oh piadosísima Virgen María!, que jamás se ha oído decir que ninguno de los que han acudido a vuestra protección, implorando vuestra asistencia y reclamando vuestro socorro, haya sido desamparado por vos. Animado yo por esta confianza, a vos también acudo, ¡oh Madre, Virgen de las vírgenes!, y gimiendo bajo el peso de mis pecados, me postro ante vos. ¡Oh Madre del Verbo!, no desprecies mis súplicas, antes bien, escuchadlas favorablemente y acogedlas benignamente. Amén.",
+      "audio": null
+    }
+  ]
+}

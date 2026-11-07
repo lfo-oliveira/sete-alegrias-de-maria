@@ -15,6 +15,7 @@ class ConfiguracoesRepository {
   static const _chaveAvancoAutomatico = 'config.audio_avanco_automatico';
   static const _chaveModoTema = 'config.modo_tema';
   static const _chaveVibracao = 'config.vibracao'; // <-- Nova chave<br>
+  static const _chaveIdioma = 'config.idioma';
   /// Guardamos o NOME do tamanho (ex.: "grande"), não o número,
   /// para o valor continuar válido se mudarmos os fatores depois.
   TamanhoLetra lerTamanhoLetra() {
@@ -48,6 +49,16 @@ class ConfiguracoesRepository {
   bool lerVibracao() => _prefs.getBool(_chaveVibracao) ?? true;
   Future<void> salvarVibracao(bool valor) =>
       _prefs.setBool(_chaveVibracao, valor);
+
+  /// Idioma selecionado para orações e interface (null = padrão do sistema).
+  String? lerIdioma() => _prefs.getString(_chaveIdioma);
+  Future<void> salvarIdioma(String? idioma) async {
+    if (idioma == null) {
+      await _prefs.remove(_chaveIdioma);
+    } else {
+      await _prefs.setString(_chaveIdioma, idioma);
+    }
+  }
 }
 
 final configuracoesRepositoryProvider = Provider<ConfiguracoesRepository>(

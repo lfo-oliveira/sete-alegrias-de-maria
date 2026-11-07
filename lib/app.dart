@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sete_alegrias_de_maria/core/theme/app_theme.dart';
+import 'package:sete_alegrias_de_maria/l10n/app_localizations.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/application/idioma_controller.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/application/modo_tema_controller.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/application/tamanho_letra_controller.dart';
 import 'package:sete_alegrias_de_maria/features/home/home_page.dart';
@@ -17,19 +18,18 @@ class SeteAlegriasApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fator = ref.watch(tamanhoLetraProvider).fator;
     final modoTema = ref.watch(modoTemaProvider); // <-- 2. Adicione esta linha aqui
+    final locale = ref.watch(idiomaControllerProvider);
 
     return MaterialApp(
       title: 'Sete Alegrias de Nossa Senhora',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.claro,
       darkTheme: AppTheme.escuro,
-      // darkTheme: AppTheme.escuro,
       themeMode: modoTema,
-      // Textos prontos do Flutter (seletor de hora, "Cancelar", leitores de
-      // tela) em português, qualquer que seja o idioma do celular.
-      locale: const Locale('pt', 'BR'),
-      supportedLocales: const [Locale('pt', 'BR')],
-      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      locale: locale,
+      // Textos prontos do Flutter e do aplicativo (gerados via l10n)
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       // Aplica o tamanho de letra escolhido a TODAS as telas.
       // Multiplica pela escala do próprio celular, então quem já aumentou a
       // letra nas configurações do Android/iPhone continua bem servido.

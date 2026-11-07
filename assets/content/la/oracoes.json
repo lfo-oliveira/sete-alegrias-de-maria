@@ -1,0 +1,59 @@
+{
+  "versao": 1,
+  "oracoes": [
+    {
+      "id": "sinal_da_cruz",
+      "titulo": "Signum Crucis",
+      "texto": "In nómine Patris, et Fílii, et Spíritus Sancti. Amen.",
+      "audio": null
+    },
+    {
+      "id": "credo",
+      "titulo": "Symbolum Apostolorum (Credo)",
+      "texto": "Credo in Deum Patrem omnipoténtem, Creatórem cæli et terræ. Et in Iesum Christum, Fílium eius únicum, Dóminum nostrum, qui concéptus est de Spíritu Sancto, natus ex María Vírgine, passus sub Póntio Piláto, crucifíxus, mórtuus, et sepúltus, descéndit ad ínferos, tértia die resurréxit a mórtuis, ascéndit ad cælos, sedet ad déxteram Dei Patris omnipoténtis, inde ventúrus est iudicáre vivos et mórtuos. Credo in Spíritum Sanctum, sanctam Ecclésiam cathólicam, sanctórum communiónem, remissiónem peccatórum, carnis resurrectiónem, vitam ætérnam. Amen.",
+      "audio": null
+    },
+    {
+      "id": "oferecimento",
+      "titulo": "Oblatio",
+      "texto": "O piíssima Virgo María, purífica lábia et corda nostra, ut digne hanc Coronam Gaudiórum tuórum recitáre valeámus. Tibi eam offérimus ad laudem tuam, ad sanctæ Matris Ecclésiæ exaltatiónem, ad honórem Fílii tui Dómini nostri Iesu Christi, in gratiárum actiónem pro ómnibus benefíciis nobis concéssis, et in suffrágium animárum purgatórii. Amen.",
+      "audio": null
+    },
+    {
+      "id": "pai_nosso",
+      "titulo": "Pater Noster",
+      "texto": "Pater noster, qui es in cælis, sanctificétur nomen tuum. Advéniat regnum tuum. Fiat volúntas tua, sicut in cælo et in terra. Panem nostrum cotidiánum da nobis hódie, et dimítte nobis débita nostra, sicut et nos dimíttimus debitóribus nostris. Et ne nos indúcas in tentatiónem, sed líbera nos a malo. Amen.",
+      "audio": null
+    },
+    {
+      "id": "ave_maria",
+      "titulo": "Ave Maria",
+      "texto": "Ave María, grátia plena, Dóminus tecum. Benedícta tu in muliéribus, et benedíctus fructus ventris tui, Iesus. Sancta María, Mater Dei, ora pro nobis peccatóribus, nunc et in hora mortis nostræ. Amen.",
+      "audio": null
+    },
+    {
+      "id": "gloria",
+      "titulo": "Gloria Patri",
+      "texto": "Glória Patri, et Fílio, et Spíritui Sancto. Sicut erat in princípio, et nunc et semper, et in sǽcula sæculórum. Amen.",
+      "audio": null
+    },
+    {
+      "id": "intencoes_papa",
+      "titulo": "Pro Intentionibus Summi Pontificis",
+      "texto": "Orémus Pater Noster, Ave María et Glória Patri pro intentiónibus Sancti Patris Papæ.",
+      "audio": null
+    },
+    {
+      "id": "salve_rainha",
+      "titulo": "Salve Regina",
+      "texto": "Salve, Regína, Mater misericórdiæ, vita, dulcédo et spes nostra, salve. Ad te clamámus, éxsules fílii Hevæ. Ad te suspirámus, geméntes et flentes in hac lacrimárum valle. Eia ergo, advocáta nostra, illos tuos misericórdes óculos ad nos convérte. Et Iesum, benedíctum fructum ventris tui, nobis post hoc exsílium osténde. O clemens, o pia, o dulcis Virgo María. Ora pro nobis, Sancta Dei Génetrix, ut digni efficiámur promissiónibus Christi. Amen.",
+      "audio": null
+    },
+    {
+      "id": "oracao_final",
+      "titulo": "Oratio Finalis (Memorare)",
+      "texto": "Memoráre, o piíssima Virgo María, a sǽculo non esse audítum, quemquam ad tua curréntem præsídia, tua implorántem auxília, tua peténtem suffrágia, esse derelíctum. Ego tali animátus confidéntia, ad te, Virgo Vírginum, Mater, curro, ad te vénio, coram te gemens peccátor assísto. Noli, Mater Verbi, verba mea despícere; sed audi propítia et exáudi. Amen.",
+      "audio": null
+    }
+  ]
+}

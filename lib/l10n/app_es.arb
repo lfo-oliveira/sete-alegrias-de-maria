@@ -1,0 +1,48 @@
+{
+  "@@locale": "es",
+  "tituloApp": "Siete Alegrías de Nuestra Señora",
+  "subtituloApp": "Rosario de la Corona Franciscana",
+
+  "rezarTerco": "Rezar la Corona",
+  "continuarOndeParei": "Continuar donde lo dejé",
+  "comecarDeNovo": "Comenzar de nuevo",
+  "parouNasOracoes": "Te quedaste en las oraciones.",
+  "parouNaAlegria": "Te quedaste en la {alegria}ª alegría.",
+
+  "dialogRecomecarTitulo": "¿Comenzar de nuevo?",
+  "dialogRecomecarConteudo": "El progreso guardado se borrará y volverás al inicio.",
+  "cancelar": "Cancelar",
+  "recomecar": "Comenzar de nuevo",
+
+  "voltar": "Atrás",
+  "proxima": "Siguiente",
+  "concluir": "Finalizar",
+  "tercoConcluidoMensagem": "Corona concluida. ¡Que Dios te bendiga! 🙏",
+  "erroCarregarOracoes": "No se pudieron cargar las oraciones.\n{erro}",
+
+  "aveMariaContador": "Avemaría {atual} de {total}",
+
+  "ouvir": "Escuchar",
+  "pausar": "Pausar",
+  "avancoAutomatico": "Avance automático",
+  "erroTocarAudio": "No fue posible reproducir este audio.",
+  "velocidadeAudio": "Velocidad de reproducción: {velocidade}",
+
+  "lembretes": "Recordatorios",
+  "backup": "Copia de seguridad",
+  "tamanhoLetra": "Tamaño de letra",
+  "temaDoApp": "Tema de la aplicación",
+  "temaClaro": "Claro",
+  "temaEscuro": "Oscuro",
+  "temaSistema": "Automático",
+  "vibracaoAtivada": "Vibración activada",
+  "vibracaoDesativada": "Vibración desactivada",
+
+  "tercosRezados": "Rosarios rezados",
+  "diasSeguidos": "Días seguidos",
+  "estaSemana": "Esta semana",
+
+  "compartilhar": "Compartir",
+  "fechar": "Cerrar",
+  "confirmar": "Confirmar"
+}

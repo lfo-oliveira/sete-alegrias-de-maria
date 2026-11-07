@@ -1,0 +1,48 @@
+{
+  "@@locale": "it",
+  "tituloApp": "Sette Gioie di Maria Santissima",
+  "subtituloApp": "Rosario della Corona Francescana",
+
+  "rezarTerco": "Recitare la Corona",
+  "continuarOndeParei": "Riprendi da dove avevi interrotto",
+  "comecarDeNovo": "Ricomincia da capo",
+  "parouNasOracoes": "Ti sei fermato alle preghiere.",
+  "parouNaAlegria": "Ti sei fermato alla {alegria}ª gioia.",
+
+  "dialogRecomecarTitulo": "Ricominciare da capo?",
+  "dialogRecomecarConteudo": "Il progresso salvato verrà cancellato e tornerai all'inizio.",
+  "cancelar": "Annulla",
+  "recomecar": "Ricomincia",
+
+  "voltar": "Indietro",
+  "proxima": "Avanti",
+  "concluir": "Termina",
+  "tercoConcluidoMensagem": "Corona completata. Dio ti benedica! 🙏",
+  "erroCarregarOracoes": "Impossibile caricare le preghiere.\n{erro}",
+
+  "aveMariaContador": "Ave Maria {atual} di {total}",
+
+  "ouvir": "Ascolta",
+  "pausar": "Pausa",
+  "avancoAutomatico": "Avanzamento automatico",
+  "erroTocarAudio": "Impossibile riprodurre questo audio.",
+  "velocidadeAudio": "Velocità audio: {velocidade}",
+
+  "lembretes": "Promemoria",
+  "backup": "Copia di backup",
+  "tamanhoLetra": "Dimensione del testo",
+  "temaDoApp": "Tema dell'applicazione",
+  "temaClaro": "Chiaro",
+  "temaEscuro": "Scuro",
+  "temaSistema": "Automatico",
+  "vibracaoAtivada": "Vibrazione attivata",
+  "vibracaoDesativada": "Vibrazione disattivata",
+
+  "tercosRezados": "Rosari recitati",
+  "diasSeguidos": "Giorni consecutivi",
+  "estaSemana": "Questa settimana",
+
+  "compartilhar": "Condividi",
+  "fechar": "Chiudi",
+  "confirmar": "Conferma"
+}

@@ -1,0 +1,86 @@
+{
+  "@@locale": "pt",
+  "tituloApp": "Sete Alegrias de Nossa Senhora",
+  "@tituloApp": {
+    "description": "Título principal do aplicativo"
+  },
+  "subtituloApp": "Terço da Coroa Franciscana",
+  "@subtituloApp": {
+    "description": "Subtítulo do aplicativo"
+  },
+
+  "rezarTerco": "Rezar o terço",
+  "continuarOndeParei": "Continuar de onde parei",
+  "comecarDeNovo": "Começar de novo",
+  "parouNasOracoes": "Você parou nas orações.",
+  "parouNaAlegria": "Você parou na {alegria}ª alegria.",
+  "@parouNaAlegria": {
+    "description": "Mensagem informando em qual alegria o fiel parou",
+    "placeholders": {
+      "alegria": {
+        "type": "int"
+      }
+    }
+  },
+
+  "dialogRecomecarTitulo": "Recomeçar o terço?",
+  "dialogRecomecarConteudo": "O progresso salvo até aqui será apagado e você voltará ao início.",
+  "cancelar": "Cancelar",
+  "recomecar": "Recomeçar",
+
+  "voltar": "Voltar",
+  "proxima": "Próxima",
+  "concluir": "Concluir",
+  "tercoConcluidoMensagem": "Terço concluído. Deus te abençoe! 🙏",
+  "erroCarregarOracoes": "Não foi possível carregar as orações.\n{erro}",
+  "@erroCarregarOracoes": {
+    "placeholders": {
+      "erro": {
+        "type": "String"
+      }
+    }
+  },
+
+  "aveMariaContador": "Ave-Maria {atual} de {total}",
+  "@aveMariaContador": {
+    "placeholders": {
+      "atual": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+
+  "ouvir": "Ouvir",
+  "pausar": "Pausar",
+  "avancoAutomatico": "Avanço automático",
+  "erroTocarAudio": "Não foi possível tocar este áudio.",
+  "velocidadeAudio": "Velocidade do áudio: {velocidade}",
+  "@velocidadeAudio": {
+    "placeholders": {
+      "velocidade": {
+        "type": "String"
+      }
+    }
+  },
+
+  "lembretes": "Lembretes",
+  "backup": "Backup",
+  "tamanhoLetra": "Tamanho da letra",
+  "temaDoApp": "Tema do aplicativo",
+  "temaClaro": "Claro",
+  "temaEscuro": "Escuro",
+  "temaSistema": "Automático",
+  "vibracaoAtivada": "Vibração ativada",
+  "vibracaoDesativada": "Vibração desativada",
+
+  "tercosRezados": "Terços rezados",
+  "diasSeguidos": "Dias seguidos",
+  "estaSemana": "Esta semana",
+
+  "compartilhar": "Compartilhar",
+  "fechar": "Fechar",
+  "confirmar": "Confirmar"
+}

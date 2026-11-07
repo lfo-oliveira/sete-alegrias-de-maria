@@ -1,0 +1,59 @@
+{
+  "versao": 1,
+  "oracoes": [
+    {
+      "id": "sinal_da_cruz",
+      "titulo": "Segno della Croce",
+      "texto": "Nel nome del Padre e del Figlio e dello Spirito Santo. Amen.",
+      "audio": null
+    },
+    {
+      "id": "credo",
+      "titulo": "Credo Apostolico",
+      "texto": "Io credo in Dio, Padre onnipotente, Creatore del cielo e della terra. E in Gesù Cristo, suo unico Figlio, nostro Signore, il quale fu concepito di Spirito Santo, nacque da Maria Vergine, patì sotto Ponzio Pilato, fu crocifisso, morì e fu sepolto; discese agli inferi; il terzo giorno risuscitò da morte; salì al cielo, siede alla destra di Dio Padre onnipotente; di là verrà a giudicare i vivi e i morti. Credo nello Spirito Santo, la santa Chiesa cattolica, la comunione dei santi, la remissione dei peccati, la risurrezione della carne, la vita eterna. Amen.",
+      "audio": null
+    },
+    {
+      "id": "oferecimento",
+      "titulo": "Offerta della Corona",
+      "texto": "O piissima Vergine Maria, purifica le nostre labbra e i nostri cuori affinché possiamo degnamente recitare la Corona delle tue Gioie. Te la offriamo a tua gloria, per l'esaltazione della Santa Chiesa, in onore del tuo Figlio Gesù, in ringraziamento per tutti i benefici che ci hai ottenuto e in suffragio delle anime del purgatorio. Amen.",
+      "audio": null
+    },
+    {
+      "id": "pai_nosso",
+      "titulo": "Padre Nostro",
+      "texto": "Padre nostro, che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà, come in cielo così in terra. Dacci oggi il nostro pane quotidiano, e rimetti a noi i nostri debiti come anche noi li rimettiamo ai nostri debitori, e non abbandonarci alla tentazione, ma liberaci dal male. Amen.",
+      "audio": null
+    },
+    {
+      "id": "ave_maria",
+      "titulo": "Ave Maria",
+      "texto": "Ave, o Maria, piena di grazia, il Signore è con te. Tu sei benedetta fra le donne e benedetto è il frutto del tuo seno, Gesù. Santa Maria, Madre di Dio, prega per noi peccatori, adesso e nell'ora della nostra morte. Amen.",
+      "audio": null
+    },
+    {
+      "id": "gloria",
+      "titulo": "Gloria al Padre",
+      "texto": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, ora e sempre, nei secoli dei secoli. Amen.",
+      "audio": null
+    },
+    {
+      "id": "intencoes_papa",
+      "titulo": "Per le intenzioni del Sommo Pontefice",
+      "texto": "Preghiamo un Padre Nostro, un'Ave Maria e un Gloria al Padre per le intenzioni del Santo Padre, il Papa.",
+      "audio": null
+    },
+    {
+      "id": "salve_rainha",
+      "titulo": "Salve Regina",
+      "texto": "Salve, Regina, Madre di misericordia, vita, dolcezza e speranza nostra, salve. A te ricorriamo, esuli figli di Eva; a te sospiriamo, gementi e piangenti in questa valle di lacrime. Orsù dunque, avvocata nostra, rivolgi a noi gli occhi tuoi misericordiosi. E mostraci, dopo questo esilio, Gesù, il frutto benedetto del tuo seno. O clemente, o pia, o dolce Vergine Maria. Prega per noi, santa Madre di Dio, affinché siamo resi degni delle promesse di Cristo. Amen.",
+      "audio": null
+    },
+    {
+      "id": "oracao_final",
+      "titulo": "Preghiera Finale (Ricordati)",
+      "texto": "Ricordati, o piissima Vergine Maria, che non si è mai inteso al mondo che alcuno sia ricorso alla tua protezione, abbia implorato il tuo patrocinio, abbia chiesto il tuo aiuto, e sia stato abbandonato. Animato da tale confidenza, a te ricorro, o Vergine delle vergini, o Madre mia, a te vengo, e gemente sotto il peso dei miei peccati, mi prostro ai tuoi piedi. Non disprezzare le mie suppliche, o Madre del Verbo, ma ascoltami propizia ed esaudiscimi. Amen.",
+      "audio": null
+    }
+  ]
+}
