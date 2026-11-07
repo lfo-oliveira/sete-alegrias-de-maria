@@ -6,12 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sete_alegrias_de_maria/data/models/alegria.dart';
 import 'package:sete_alegrias_de_maria/data/models/oracao.dart';
 import 'package:sete_alegrias_de_maria/data/models/passo.dart';
-import 'package:sete_alegrias_de_maria/data/repositories/configuracoes_repository.dart';
 import 'package:sete_alegrias_de_maria/data/repositories/conteudo_repository.dart';
 import 'package:sete_alegrias_de_maria/data/repositories/progresso_repository.dart';
 import 'package:sete_alegrias_de_maria/features/audio/application/audios_disponiveis.dart';
 import 'package:sete_alegrias_de_maria/features/configuracoes/application/idioma_controller.dart';
-import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
 
 void main() {
   group('Resolução dinâmica de áudios por idioma', () {
@@ -31,7 +29,7 @@ void main() {
     final conteudo = Conteudo(oracoes: oracoes, alegrias: alegrias);
 
     test('resolve o caminho correto para oração em espanhol quando disponível', () {
-      final passo = Passo.oracao('pai_nosso');
+      const passo = Passo.oracao('pai_nosso');
       final disponiveis = {
         'assets/audio/es/oracoes/pai_nosso.mp3',
         'assets/audio/pt/oracoes/pai_nosso.mp3',
@@ -48,7 +46,7 @@ void main() {
     });
 
     test('resolve o caminho correto para meditação em latim quando disponível', () {
-      final passo = Passo.meditacao(1);
+      const passo = Passo.meditacao(1);
       final disponiveis = {
         'assets/audio/la/leituras/alegria_1.mp3',
         'assets/audio/pt/leituras/alegria_1.mp3',
@@ -65,7 +63,7 @@ void main() {
     });
 
     test('retorna null se o áudio não estiver gravado no idioma selecionado', () {
-      final passo = Passo.oracao('pai_nosso');
+      const passo = Passo.oracao('pai_nosso');
       // Apenas português tem o áudio gravado
       final disponiveis = {
         'assets/audio/pt/oracoes/pai_nosso.mp3',
@@ -83,7 +81,7 @@ void main() {
     });
 
     test('retorna null se a meditação não estiver gravada no idioma selecionado', () {
-      final passo = Passo.meditacao(1);
+      const passo = Passo.meditacao(1);
       final disponiveis = {
         'assets/audio/pt/leituras/alegria_1.mp3',
       };
