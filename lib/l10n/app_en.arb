@@ -25,6 +25,7 @@
   "ouvir": "Listen",
   "pausar": "Pause",
   "avancoAutomatico": "Auto-advance",
+  "audioDisponivel": "Audio available",
   "erroTocarAudio": "Could not play this audio.",
   "velocidadeAudio": "Audio speed: {velocidade}",
 

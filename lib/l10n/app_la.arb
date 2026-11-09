@@ -25,6 +25,7 @@
   "ouvir": "Audire",
   "pausar": "Pausa",
   "avancoAutomatico": "Progressus automaticus",
+  "audioDisponivel": "Sonus promptus",
   "erroTocarAudio": "Hoc sonum agere non potuit.",
   "velocidadeAudio": "Velocitas: {velocidade}",
 

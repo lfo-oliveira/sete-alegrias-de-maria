@@ -1,0 +1,8 @@
+Inserisci qui i file MP3 delle letture delle sette gioie in Italiano:
+
+  alegria_1.mp3   alegria_2.mp3   alegria_3.mp3   alegria_4.mp3
+  alegria_5.mp3   alegria_6.mp3   alegria_7.mp3
+
+L'app rileva automaticamente i file esistenti. Le gioie senza file audio
+non mostreranno il pulsante "Ascolta".
+Dopo aver aggiunto i file, esegui nuovamente "flutter run".

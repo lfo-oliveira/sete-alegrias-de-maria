@@ -224,6 +224,12 @@ abstract class AppLocalizations {
   /// **'Avanço automático'**
   String get avancoAutomatico;
 
+  /// No description provided for @audioDisponivel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Áudio disponível'**
+  String get audioDisponivel;
+
   /// No description provided for @erroTocarAudio.
   ///
   /// In pt, this message translates to:

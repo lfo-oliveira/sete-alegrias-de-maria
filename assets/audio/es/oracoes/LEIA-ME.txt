@@ -1,0 +1,9 @@
+Coloque aquí los MP3 de las oraciones en Español, con el nombre igual al id de la oración:
+
+  sinal_da_cruz.mp3   credo.mp3        oferecimento.mp3
+  pai_nosso.mp3       ave_maria.mp3    gloria.mp3
+  salve_rainha.mp3    oracao_final.mp3 intencoes_papa.mp3
+
+La app descubre automáticamente qué archivos existen. La oración sin archivo
+aparece sin el botón "Ouvir / Escuchar".
+Después de agregar archivos, ejecute "flutter run" de nuevo.

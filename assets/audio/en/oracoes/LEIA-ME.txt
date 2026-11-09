@@ -1,0 +1,9 @@
+Place MP3 files for English prayers here, using the prayer id as the file name:
+
+  sinal_da_cruz.mp3   credo.mp3        oferecimento.mp3
+  pai_nosso.mp3       ave_maria.mp3    gloria.mp3
+  salve_rainha.mp3    oracao_final.mp3 intencoes_papa.mp3
+
+The app automatically detects existing audio files. Prayers without audio files
+will simply not show the "Listen" button.
+After adding files, run "flutter run" again.

@@ -1,0 +1,8 @@
+Place MP3 files for the seven joys readings in English here:
+
+  alegria_1.mp3   alegria_2.mp3   alegria_3.mp3   alegria_4.mp3
+  alegria_5.mp3   alegria_6.mp3   alegria_7.mp3
+
+The app automatically detects existing audio files. Joys without audio files
+will simply not show the "Listen" button.
+After adding files, run "flutter run" again.

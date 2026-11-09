@@ -9,7 +9,10 @@ import 'package:sete_alegrias_de_maria/features/lembretes/data/agendador_lembret
 import 'helpers/agendador_falso.dart';
 
 Future<Widget> _montarApp(Map<String, Object> valoresSalvos) async {
-  SharedPreferences.setMockInitialValues(valoresSalvos);
+  SharedPreferences.setMockInitialValues({
+    'config.idioma': 'pt',
+    ...valoresSalvos,
+  });
   final prefs = await SharedPreferences.getInstance();
   return ProviderScope(
     overrides: [
@@ -44,7 +47,7 @@ void main() {
 
     await tester.tap(find.text('Começar de novo'));
     await tester.pumpAndSettle();
-    expect(find.text('Começar de novo?'), findsOneWidget);
+    expect(find.text('Recomeçar o terço?'), findsOneWidget);
 
     await tester.tap(find.text('Cancelar'));
     await tester.pumpAndSettle();

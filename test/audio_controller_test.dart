@@ -7,6 +7,7 @@ import 'package:sete_alegrias_de_maria/data/repositories/progresso_repository.da
 import 'package:sete_alegrias_de_maria/features/audio/application/audio_controller.dart';
 import 'package:sete_alegrias_de_maria/features/audio/application/audios_disponiveis.dart';
 import 'package:sete_alegrias_de_maria/features/audio/data/player_audio.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/application/idioma_controller.dart';
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
 import 'package:sete_alegrias_de_maria/features/terco/domain/terco_sequencia.dart';
 
@@ -62,6 +63,7 @@ Future<_Cenario> _montar({
     sharedPreferencesProvider.overrideWithValue(prefs),
     playerAudioProvider.overrideWithValue(player),
     pausaEntreAudiosProvider.overrideWithValue(Duration.zero),
+    codigoIdiomaProvider.overrideWithValue('pt'),
     conteudoProvider.overrideWith(
       (ref) => Conteudo(
         oracoes: {

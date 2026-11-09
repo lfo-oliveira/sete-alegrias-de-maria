@@ -5,6 +5,7 @@ import 'package:sete_alegrias_de_maria/data/repositories/configuracoes_repositor
 import 'package:sete_alegrias_de_maria/data/repositories/conteudo_repository.dart';
 import 'package:sete_alegrias_de_maria/features/audio/application/audios_disponiveis.dart';
 import 'package:sete_alegrias_de_maria/features/audio/data/player_audio.dart';
+import 'package:sete_alegrias_de_maria/features/configuracoes/application/idioma_controller.dart';
 import 'package:sete_alegrias_de_maria/features/terco/application/terco_controller.dart';
 
 class AudioState {
@@ -91,6 +92,7 @@ class AudioController extends AutoDisposeNotifier<AudioState> {
         passo: ref.read(tercoControllerProvider).passoAtual,
         conteudo: ref.read(conteudoProvider).valueOrNull,
         disponiveis: ref.read(audiosDisponiveisProvider).valueOrNull,
+        idioma: ref.read(codigoIdiomaProvider),
       );
 
   /// Botão Ouvir / Pausar.

@@ -1,0 +1,9 @@
+Inserisci qui i file MP3 delle preghiere in Italiano, usando l'id della preghiera come nome file:
+
+  sinal_da_cruz.mp3   credo.mp3        oferecimento.mp3
+  pai_nosso.mp3       ave_maria.mp3    gloria.mp3
+  salve_rainha.mp3    oracao_final.mp3 intencoes_papa.mp3
+
+L'app rileva automaticamente i file esistenti. Le preghiere senza file audio
+non mostreranno il pulsante "Ascolta".
+Dopo aver aggiunto i file, esegui nuovamente "flutter run".

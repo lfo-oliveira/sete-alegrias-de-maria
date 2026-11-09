@@ -76,6 +76,9 @@ class AppLocalizationsLa extends AppLocalizations {
   String get avancoAutomatico => 'Progressus automaticus';
 
   @override
+  String get audioDisponivel => 'Sonus promptus';
+
+  @override
   String get erroTocarAudio => 'Hoc sonum agere non potuit.';
 
   @override

@@ -1,0 +1,8 @@
+Hic MP3 soni lectionum septem gaudiorum in lingua Latina ponendi sunt:
+
+  alegria_1.mp3   alegria_2.mp3   alegria_3.mp3   alegria_4.mp3
+  alegria_5.mp3   alegria_6.mp3   alegria_7.mp3
+
+Applikatio sponte detegit fasciculos existentes. Gaudia sine fasciculo sonoro
+sine bulla "Audire" apparebunt.
+Post fasciculos additos, "flutter run" iterum agatur.
